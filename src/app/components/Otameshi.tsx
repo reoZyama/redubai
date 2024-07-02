@@ -2,8 +2,20 @@
 
 import { useEffect } from 'react';
 import * as THREE from 'three';
+import useCurrentWeather from '../hooks/useCurrentWeather';
 
 export default function Otameshi() {
+  const {data} = useCurrentWeather();
+  // data.temp_c ==> 8.7
+
+  /**
+   * 赤 = 1 ~ 5
+   * 青 = 6 ~ 10
+   * 
+   * data.temp_c を関数の引数に与え、色を取得する
+   * 色を threejs のオブジェクトに当てる
+   */
+
   useEffect(() => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
