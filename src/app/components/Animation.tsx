@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from 'react';
 import * as THREE from 'three';
 
@@ -43,9 +41,9 @@ export default function Animation() {
 
       const time = Date.now() * 0.001;
       marigold.position.x = 5 * Math.cos(time);
-      marigold.position.z = 5 * Math.sin(time);
+      marigold.position.z = 5 * Math.sin(-time); // 反時計回りに変更
       stem.position.x = 5 * Math.cos(time);
-      stem.position.z = 5 * Math.sin(time);
+      stem.position.z = 5 * Math.sin(-time); // 反時計回りに変更
 
       renderer.render(scene, camera);
     };
