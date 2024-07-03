@@ -1,7 +1,7 @@
-"use client"; // クライアントサイドで実行することを示す
+"use client" // クライアントサイドで実行することを示す
 
 import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
-import * as THREE from 'three';  // Three.jsライブラリをインポート
+import * as THREE from 'three'; // Three.jsライブラリをインポート
 
 export default function Animation() { // Animationコンポーネントを定義
   useEffect(() => { // コンポーネントがマウントされたときに実行される副作用を定義
@@ -9,7 +9,7 @@ export default function Animation() { // Animationコンポーネントを定義
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
-    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
+    renderer.setClearColor(0xffffff, 1); // 背景色を白に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
@@ -29,6 +29,12 @@ export default function Animation() { // Animationコンポーネントを定義
     scene.add(ambientLight); // シーンに環境光を追加
 
     camera.position.z = 10; // カメラの位置を設定
+
+    // 黒色の五角形のマテリアルを作成
+    const geometry = new THREE.CircleGeometry(5, 5); // 五角形のジオメトリを作成
+    const material = new THREE.MeshBasicMaterial({ color: 0x000000 }); // 黒色のマテリアルを作成
+    const pentagon = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルからメッシュを作成
+    scene.add(pentagon); // シーンに五角形を追加
 
     const animate = function () { // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す

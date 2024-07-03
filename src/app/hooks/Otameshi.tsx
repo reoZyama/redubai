@@ -51,7 +51,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
           const z = (i / numPoints) * 10 - 5; // z座標を計算
           points.push(new THREE.Vector3(x, y, z)); // 点を配列に追加
         }
-        const geometry = new THREE.BufferGeometry().setFromPoints(points); // 点の配列からジオメトリを作成
+        const geometry = new THREE.BufferGeometry().setFromPoints(points as THREE.Vector3[]); // 点の配列からジオメトリを作成
         const line = new THREE.Line(geometry, material); // ジオメトリとマテリアルからラインを作成
         scene.add(line); // シーンにラインを追加
       }
