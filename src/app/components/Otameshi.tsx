@@ -1,11 +1,11 @@
-"use client"
+"use client" // クライアントサイドで実行することを示す
 
-import { useEffect } from 'react';
-import * as THREE from 'three';
-import useCurrentWeather from '../hooks/useCurrentWeather';
+import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
+import * as THREE from 'three'; // Three.jsライブラリをインポート
+import useCurrentWeather from '../hooks/useCurrentWeather'; // カスタムフックuseCurrentWeatherをインポート
 
-export default function Otameshi() {
-  const {data} = useCurrentWeather();
+export default function Otameshi() { // Otameshiコンポーネントを定義
+  const {data} = useCurrentWeather(); // useCurrentWeatherフックからデータを取得
   // data.temp_c ==> 8.7
 
   /**
@@ -16,63 +16,66 @@ export default function Otameshi() {
    * 色を threejs のオブジェクトに当てる
    */
 
-  useEffect(() => {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  useEffect(() => { // コンポーネントがマウントされたときに実行される副作用を定義
+    const scene = new THREE.Scene(); // Three.jsのシーンを作成
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
+    const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
+    renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0xffffff, 1); // 背景色を白に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
-    document.body.appendChild(renderer.domElement);
+    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
-    // マリーゴールドのオブジェクトを作成
-    const marigoldGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const marigoldMaterial = new THREE.MeshStandardMaterial({ color: 0xFFA500 }); // マリーゴールドの色
-    const marigold = new THREE.Mesh(marigoldGeometry, marigoldMaterial);
-    marigold.castShadow = true; // マリーゴールドに影をつける
-    scene.add(marigold);
-
-    // 茎の部分を作成
-    const stemGeometry = new THREE.CylinderGeometry(0.1, 0.1, 5, 32);
-    const stemMaterial = new THREE.MeshStandardMaterial({ color: 0x008000 }); // 茎の色
-    const stem = new THREE.Mesh(stemGeometry, stemMaterial);
-    stem.position.y = -3; // 茎の位置を調整
-    stem.castShadow = true; // 茎に影をつける
-    scene.add(stem);
-
-    const light = new THREE.DirectionalLight(0xffffff, 2); // 光の強さを2に設定
-    light.position.set(5, 5, 5);
+    const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性ライトを作成
+    light.position.set(5, 5, 5); // ライトの位置を設定
     light.castShadow = true; // ライトの影を有効にする
-    scene.add(light);
+    scene.add(light); // シーンにライトを追加
 
-    const ambientLight = new THREE.AmbientLight(0x404040); // 環境光
-    scene.add(ambientLight);
+    const ambientLight = new THREE.AmbientLight(0x404040); // 環境光を作成
+    scene.add(ambientLight); // シーンに環境光を追加
 
-    camera.position.z = 10;
+    camera.position.z = 20; // カメラの位置を設定
 
-    const animate = function () {
-      requestAnimationFrame(animate);
+    // 点で螺旋を作成
+    const material = new THREE.LineBasicMaterial({ color: 0x000000 }); // ラインのマテリアルを作成し、色を黒に設定
+    const numPoints = 50; // 螺旋の点の数
+    const radius = 5; // 螺旋の半径
+    const turns = 10; // 螺旋の回転数を定義
 
-      const time = Date.now() * 0.001;
-      marigold.position.x = 5 * Math.cos(time);
-      marigold.position.z = 5 * Math.sin(-time); // 反時計回りに変更
-      stem.position.x = 5 * Math.cos(time);
-      stem.position.z = 5 * Math.sin(-time); // 反時計回りに変更
+    for (let j = 0; j < 3; j++) { // 3本の螺旋を作成
+      const points = []; // 点の配列を作成
+      for (let i = 0; i < numPoints; i++) {
+        const angle = i * (turns * 2 * Math.PI) / numPoints; // 螺旋の角度を計算
+        const x = radius * Math.cos(angle) + (Math.random() - 0.5) * 2; // x座標を計算し、ランダムなオフセットを追加
+        const y = radius * Math.sin(angle) + (Math.random() - 0.5) * 2; // y座標を計算し、ランダムなオフセットを追加
+        const z = (i / numPoints) * 5 - 5 + (Math.random() - 0.5) * 2; // z座標を計算し、ランダムなオフセットを追加
+        points.push(new THREE.Vector3(x, y, z)); // 点を配列に追加
+      }
+      const geometry = new THREE.BufferGeometry().setFromPoints(points); // 点の配列からジオメトリを作成
+      const line = new THREE.Line(geometry, material); // ジオメトリとマテリアルからラインを作成
+      scene.add(line); // シーンにラインを追加
+    }
 
-      renderer.render(scene, camera);
+    const animate = function () { // アニメーション関数を定義
+      requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
+
+      camera.position.x = 20 * Math.cos(Date.now() * 0.001); // カメラのx座標を時間に応じて計算
+      camera.position.y = 20 * Math.sin(Date.now() * 0.001); // カメラのy座標を時間に応じて計算
+      camera.lookAt(0, 0, 0); // カメラを原点に向ける
+
+      renderer.render(scene, camera); // シーンとカメラをレンダリング
     };
 
-    animate();
+    animate(); // アニメーションを開始
 
-    return () => {
-      document.body.removeChild(renderer.domElement);
+    return () => { // クリーンアップ関数を定義
+      document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
     };
-  }, []);
+  }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div>
+    <div> {/* コンポーネントのルート要素 */}
       <div style={{ position: 'absolute', top: 0, left: 0, color: 'black', fontFamily: 'Source Han Serif', fontWeight: 'bold' }}>
-        ドバイ
+        {/* スタイルを適用したdiv要素 */}
       </div>
     </div>
   );
