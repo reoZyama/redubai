@@ -21,6 +21,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
+    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
@@ -32,28 +33,30 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
     const ambientLight = new THREE.AmbientLight(0x404040); // 環境光を作成
     scene.add(ambientLight); // シーンに環境光を追加
 
-    camera.position.z = 20; // カメラの位置を設定
+    camera.position.z = 15; // カメラの位置を設定
+
+    let turns = 5; // 螺旋の回転数を定義
 
     const createSpirals = () => {
       // 10本の螺旋を作成
       const numSpirals = 8; // 螺旋の数を定義
       const numPoints = 5000; // 螺旋の点の数
       const radius = 10; // 螺旋の半径
-      const turns = 5; // 螺旋の回転数を定義
 
       for (let j = 0; j < numSpirals; j++) {
-        const material = new THREE.LineBasicMaterial({ color: Math.random() * 0xffffff }); // ラインのマテリアルを作成し、色をランダムに設定
+        const material = new THREE.PointsMaterial({ color: Math.random() * 0xffffff, size: 0.1 }); // 点のマテリアルを作成し、色をランダムに設定
         const points = []; // 点の配列を作成
+        const randomTurns = turns + Math.floor(Math.random() * 5) - 2; // 螺旋の回転数をランダムに増減
         for (let i = 0; i < numPoints; i++) {
-          const angle = i * (turns * 2 * Math.PI) / numPoints; // 螺旋の角度を計算
+          const angle = i * (randomTurns * 6 * Math.PI) / numPoints; // 螺旋の角度を計算
           const x = radius * Math.cos(angle + (j * 2 * Math.PI / numSpirals)); // x座標を計算
           const y = radius * Math.sin(angle + (j * 2 * Math.PI / numSpirals)); // y座標を計算
           const z = (i / numPoints) * 10 - 5; // z座標を計算
           points.push(new THREE.Vector3(x, y, z)); // 点を配列に追加
         }
         const geometry = new THREE.BufferGeometry().setFromPoints(points); // 点の配列からジオメトリを作成
-        const line = new THREE.Line(geometry, material); // ジオメトリとマテリアルからラインを作成
-        scene.add(line); // シーンにラインを追加
+        const pointCloud = new THREE.Points(geometry, material); // ジオメトリとマテリアルから点群を作成
+        scene.add(pointCloud); // シーンに点群を追加
       }
     };
 
@@ -64,6 +67,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
       while(scene.children.length > 0){ 
         scene.remove(scene.children[0]); 
       }
+      turns += Math.floor(Math.random() * 5) - 1; // 螺旋の回転数をランダムに増減
       createSpirals(); // 新しい螺旋を作成
     }, 5000); // 5秒ごとに実行
 

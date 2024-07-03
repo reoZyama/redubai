@@ -45,7 +45,7 @@ export default function Animation() { // Animationコンポーネントを定義
 
   return (
     <div> {/* コンポーネントのルート要素 */}
-      <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold' }}>
+      <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
         {/* スタイルを適用したdiv要素 */}
         DUBAI {/* 表示するテキスト */}
       </div>
