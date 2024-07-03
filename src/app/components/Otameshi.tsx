@@ -21,7 +21,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
-    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
+    renderer.setClearColor(0xffffff, 1); // 背景色を白に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
@@ -74,8 +74,13 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
     const animate = function () { // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
 
-      camera.position.x = 20 * Math.cos(Date.now() * 0.001); // カメラのx座標を時間に応じて計算
-      camera.position.y = 20 * Math.sin(Date.now() * 0.001); // カメラのy座標を時間に応じて計算
+      const latitude = 25.2667 * (Math.PI / 180); // 北緯25度16分をラジアンに変換
+      const longitude = 55.3333 * (Math.PI / 180); // 東経55度20分をラジアンに変換
+      const radius = 20; // カメラの半径を設定
+
+      camera.position.x = radius * Math.cos(Date.now() * 0.001) * Math.cos(latitude); // カメラのx座標を計算
+      camera.position.y = radius * Math.sin(Date.now() * 0.001) * Math.cos(latitude); // カメラのy座標を計算
+      camera.position.z = radius * Math.sin(latitude); // カメラのz座標を計算
       camera.lookAt(0, 0, 0); // カメラを原点に向ける
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
