@@ -25,6 +25,14 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
     renderer.shadowMap.enabled = true; // 影を有効にする
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
+    // 画面サイズ変更時にレンダラーとカメラのサイズを更新
+    const onWindowResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener('resize', onWindowResize);
+
     const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性ライトを作成
     light.position.set(5, 5, 5); // ライトの位置を設定
     light.castShadow = true; // ライトの影を有効にする
@@ -48,7 +56,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
         const points = []; // 点の配列を作成
         const randomTurns = turns + Math.floor(Math.random() * 5) - 2; // 螺旋の回転数をランダムに増減
         for (let i = 0; i < numPoints; i++) {
-          const angle = i * (randomTurns * 6 * Math.PI) / numPoints; // 螺旋の角度を計算
+          const angle = i * (randomTurns * 6 * Math.PI) / numPoints; // 螺��の角度を計算
           const x = radius * Math.cos(angle + (j * 2 * Math.PI / numSpirals)); // x座標を計算
           const y = radius * Math.sin(angle + (j * 2 * Math.PI / numSpirals)); // y座標を計算
           const z = (i / numPoints) * 10 - 5; // z座標を計算
@@ -90,6 +98,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
 
     return () => { // クリーンアップ関数を定義
       document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
+      window.removeEventListener('resize', onWindowResize); // リサイズイベントリスナーを削除
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
