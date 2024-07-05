@@ -19,7 +19,7 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性��イトを作成し、光の強さを2に設定
+    const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性ライトを作成し、光の強さを2に設定
     light.position.set(5, 5, 5); // ライトの位置を設定
     light.castShadow = true; // ライトの影を有効にする
     scene.add(light); // シーンにライトを追加
@@ -64,7 +64,6 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
     <div> {/* コンポーネントのルート要素 */}
       <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
         {/* スタイルを適用したdiv要素 */}
-        五角形 {/* 表示するテキスト */}
       </div>
     </div>
   );

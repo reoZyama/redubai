@@ -56,7 +56,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
         const points = []; // 点の配列を作成
         const randomTurns = turns + Math.floor(Math.random() * 5) - 2; // 螺旋の回転数をランダムに増減
         for (let i = 0; i < numPoints; i++) {
-          const angle = i * (randomTurns * 6 * Math.PI) / numPoints; // 螺��の角度を計算
+          const angle = i * (randomTurns * 6 * Math.PI) / numPoints; // 螺旋の角度を計算
           const x = radius * Math.cos(angle + (j * 2 * Math.PI / numSpirals)); // x座標を計算
           const y = radius * Math.sin(angle + (j * 2 * Math.PI / numSpirals)); // y座標を計算
           const z = (i / numPoints) * 10 - 5; // z座標を計算

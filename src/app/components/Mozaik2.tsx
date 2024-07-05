@@ -57,7 +57,6 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
     <div> {/* コンポーネントのルート要素 */}
       <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
         {/* スタイルを適用したdiv要素 */}
-        正十二面体 {/* 表示するテキスト */}
       </div>
     </div>
   );

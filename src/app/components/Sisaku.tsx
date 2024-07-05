@@ -35,8 +35,21 @@ export default function Animation() { // Animationコンポーネントを定義
 
     camera.position.z = 10; // カメラの位置を設定
 
+    // 球体のジオメトリとマテリアルを作成
+    const geometry = new THREE.SphereGeometry(1, 32, 32); // 半径1の球体ジオメトリを作成
+    const material = new THREE.MeshBasicMaterial({ color: 0x007700 }); // 青色のマテリアルを作成
+    const sphere = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルからメッシュを作成
+    scene.add(sphere); // シーンに球体を追加
+
     const animate = function () { // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
+
+      sphere.position.x -= 0.3; // 球体を左に移動させる
+
+      // 球体が画面外に出たら再び右から出るようにする
+      if (sphere.position.x < -window.innerWidth / -0 / 90) {
+        sphere.position.x = window.innerWidth / 0 / 90;
+      }
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
     };
@@ -51,9 +64,9 @@ export default function Animation() { // Animationコンポーネントを定義
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div ref={mountRef} style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}> {/* コンポーネントのルート要素 */}
+    <div ref={mountRef} style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}> {/* コ��ポーネントのルート要素 */}
       <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
-        Prot
+        
       </div>
     </div>
   );
