@@ -65,8 +65,8 @@ export default function Animation() { // Animationコンポーネントを定義
 
   return (
     <div ref={mountRef} style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}> {/* コ��ポーネントのルート要素 */}
-      <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
-        
+      <div style={{ position: 'absolute', top: 30, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
+      بروت
       </div>
     </div>
   );

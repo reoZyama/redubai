@@ -5,6 +5,7 @@ import Otameshi from "./components/Otameshi";
 import Mozaik2 from "./components/Mozaik2";
 import Mozaiku from "./components/Mozaiku";
 import Sisaku from "./components/Sisaku";
+import Aggregation from "./components/Aggregation";
 import { useState } from "react";
   
 
@@ -22,7 +23,9 @@ export default function Home() {
       <Mozaik2 />
       <Mozaiku />
       <Sisaku />
+      <Aggregation />
       
+
         
 
     </>
