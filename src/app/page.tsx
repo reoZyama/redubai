@@ -1,6 +1,6 @@
 "use client"; // Added
 
-import Animation from "./components/Animation";
+import Animation from "./components/Ellipse";
 import Otameshi from "./components/Otameshi";
 import Mozaik2 from "./components/Mozaik2";
 import Mozaiku from "./components/Mozaiku";
@@ -25,9 +25,10 @@ export default function Home() {
       <Sisaku />
       <Aggregation />
       
-
-        
-
+        <div>
+          <h1>Hello World</h1>
+        </div>
+    
     </>
   );
 }

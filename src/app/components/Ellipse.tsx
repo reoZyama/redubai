@@ -2,6 +2,12 @@
 
 import { useEffect, useRef } from 'react'; // ReactのuseEffectとuseRefフックをインポート
 import * as THREE from 'three';  // Three.jsライブラリをインポート
+import { Line2 } from 'three/examples/jsm/lines/Line2.js';
+import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
+
+// 型宣言をインポート
+import 'three/examples/jsm/lines/LineMaterial';
 
 export default function Animation() { // Animationコンポーネントを定義
   const mountRef = useRef(null); // DOM要素を参照するためのrefを作成
@@ -12,7 +18,6 @@ export default function Animation() { // Animationコンポーネントを定義
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0xffffff, 1); // 背景色を白に設定
-    renderer.shadowMap.enabled = true; // 影を有効にする
 
     if (mountRef.current) {
       (mountRef.current as HTMLElement).appendChild(renderer.domElement); // レンダラーのDOM要素をrefに追加
@@ -25,15 +30,47 @@ export default function Animation() { // Animationコンポーネントを定義
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性ライトを作成し、光の強さを2に設定
-    light.position.set(5, 5, 5); // ライトの位置を設定
-    light.castShadow = true; // ライトの影を有効にする
-    scene.add(light); // シーンにライトを追加
-
-    const ambientLight = new THREE.AmbientLight(0x404040); // 環境光を作成
-    scene.add(ambientLight); // シーンに環境光を追加
-
     camera.position.z = 10; // カメラの位置を設定
+
+    // 楕円のジオメトリとマテリアルを作成
+    const ellipseGeometry = new THREE.EllipseCurve(
+      0, 0,            // 中心の位置
+      7, 2,            // x半径とy半径
+      0, 2 * Math.PI,  // 開始角度と終了角度
+      false,           // 時計回りかどうか
+      0                // 回転角度
+    );
+    const ellipsePoints = ellipseGeometry.getPoints(50);
+    const ellipsePositions = new Float32Array(ellipsePoints.length * 3);
+    for (let i = 0; i < ellipsePoints.length; i++) {
+      ellipsePositions[i * 3] = ellipsePoints[i].x;
+      ellipsePositions[i * 3 + 1] = ellipsePoints[i].y;
+      ellipsePositions[i * 3 + 2] = 0;
+    }
+    const ellipseLineGeometry = new LineGeometry();
+    ellipseLineGeometry.setPositions(ellipsePositions);
+    const ellipseLineMaterial = new LineMaterial({
+      color: 0x000000,
+      linewidth: 40, // 線の太さを大きく調整
+      resolution: new THREE.Vector2(window.innerWidth, window.innerHeight) // 解像度を設定
+    });
+    const ellipse = new Line2(ellipseLineGeometry, ellipseLineMaterial);
+    scene.add(ellipse); // シーンに楕円を追加
+
+    // 楕円の中心を結ぶ交差する直径の二つの線を作成
+    const diameterPositions = new Float32Array([
+      -7, 0, 0, 7, 0, 0, // 水平線
+      0, -2, 0, 0, 2, 0  // 垂直線
+    ]);
+    const diameterLineGeometry = new LineGeometry();
+    diameterLineGeometry.setPositions(diameterPositions);
+    const diameterLineMaterial = new LineMaterial({
+      color: 0x000000, // 黒色
+      linewidth: 40, // 線の太さを楕円と揃える
+      resolution: new THREE.Vector2(window.innerWidth, window.innerHeight) // 解像度を設定
+    });
+    const diameterLines = new Line2(diameterLineGeometry, diameterLineMaterial);
+    scene.add(diameterLines); // シーンに直径の線を追加
 
     const animate = function () { // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す

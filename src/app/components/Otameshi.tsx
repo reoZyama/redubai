@@ -21,7 +21,7 @@ export default function Otameshi() { // Otameshiコンポーネントを定義
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
-    renderer.setClearColor(0xffffff, 1); // 背景色を白に設定
+    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 

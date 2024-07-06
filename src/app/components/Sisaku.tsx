@@ -11,7 +11,7 @@ export default function Animation() { // Animationコンポーネントを定義
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
-    renderer.setClearColor(0xffffff, 1); // 背景色を白に設定
+    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
 
     if (mountRef.current) {
@@ -64,7 +64,7 @@ export default function Animation() { // Animationコンポーネントを定義
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div ref={mountRef} style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}> {/* コ��ポーネントのルート要素 */}
+    <div ref={mountRef} style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}> {/* コンポーネントのルート要素 */}
       <div style={{ position: 'absolute', top: 30, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
       بروت
       </div>
