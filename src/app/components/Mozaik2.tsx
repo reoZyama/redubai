@@ -38,10 +38,29 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
     const wireframe = new THREE.LineSegments(edges, lineMaterial); // エッジジオメトリとラインマテリアルからラインセグメントを作成
     scene.add(wireframe); // シーンにワイヤーフレームを追加
 
+    // 正十二面体の対角線を作成
+    const vertices = geometry.attributes.position.array; // 正十二面体の頂点を取得
+    const diagonalMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 }); // 赤色のラインマテリアルを作成
+    const diagonalGeometry = new THREE.BufferGeometry(); // バッファジオメトリを作成
+
+    // 対角線をジオメトリに追加
+    const positions = [];
+    for (let i = 0; i < vertices.length; i += 3) {
+      for (let j = i + 3; j < vertices.length; j += 3) {
+        positions.push(vertices[i], vertices[i + 1], vertices[i + 2]);
+        positions.push(vertices[j], vertices[j + 1], vertices[j + 2]);
+      }
+    }
+    diagonalGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+    const diagonals = new THREE.LineSegments(diagonalGeometry, diagonalMaterial); // ジオメトリとマテリアルからラインセグメントを作成
+    scene.add(diagonals); // シーンに対角線を追加
+
     const animate = function () { // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
 
       wireframe.rotation.y -= 0.01; // ワイヤーフレームを半時計回りに回転させる
+      diagonals.rotation.y -= 0.01; // 対角線も半時計回りに回転させる
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
     };

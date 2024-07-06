@@ -45,10 +45,36 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
 
     const material = new THREE.MeshBasicMaterial({ color: 0x000000 }); // 黒色のマテリアルを作成
     const pentagon = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルからメッシュを作成
+    pentagon.position.set(0, 0, 0); // 五角形の位置を原点に設定
+    pentagon.geometry.computeBoundingBox(); // バウンディングボックスを計算
     scene.add(pentagon); // シーンに五角形を追加
+
+    // レイキャストの対象を更新
+    const objects = [pentagon];
+
+    // レイキャスターとマウスベクトルを作成
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // マウスムーブイベントリスナーを追加
+    window.addEventListener('mousemove', (event) => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
 
     const animate = function () { // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
+
+      // レイキャストを更新
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(objects); // 複数オブジェクトに対応
+
+      if (intersects.length > 0) {
+        const intersectedObject = intersects[0].object as THREE.Mesh; // 型アサーションを追加
+        (intersectedObject.material as THREE.MeshBasicMaterial).color.set(0xff0000); // 型アサーションを追加して赤色に変更
+      } else {
+        (pentagon.material as THREE.MeshBasicMaterial).color.set(0x000000); // 型アサーションを追加して黒色に戻す
+      }
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
     };

@@ -56,5 +56,6 @@ export default function Animation() { // Animationコンポーネントを定義
         Prot
       </div>
     </div>
+    
   );
 }
