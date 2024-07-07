@@ -1,12 +1,19 @@
-"use client"; // クライアントサイドで実行することを示す
+'use client'; // クライアントサイドで実行することを示す
 
 import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
-import * as THREE from 'three';  // Three.jsライブラリをインポート
+import * as THREE from 'three'; // Three.jsライブラリをインポート
 
-export default function Mozaiku() { // モザイクコンポーネントを定義
-  useEffect(() => { // コンポーネントがマウントされたときに実行される副作用を定義
+export default function Mozaiku() {
+  // モザイクコンポーネントを定義
+  useEffect(() => {
+    // コンポーネントがマウントされたときに実行される副作用を定義
     const scene = new THREE.Scene(); // Three.jsのシーンを作成
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // カメラを作成
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    ); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
@@ -51,12 +58,19 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
         positions.push(vertices[j], vertices[j + 1], vertices[j + 2]);
       }
     }
-    diagonalGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    diagonalGeometry.setAttribute(
+      'position',
+      new THREE.Float32BufferAttribute(positions, 3),
+    );
 
-    const diagonals = new THREE.LineSegments(diagonalGeometry, diagonalMaterial); // ジオメトリとマテリアルからラインセグメントを作成
+    const diagonals = new THREE.LineSegments(
+      diagonalGeometry,
+      diagonalMaterial,
+    ); // ジオメトリとマテリアルからラインセグメントを作成
     scene.add(diagonals); // シーンに対角線を追加
 
-    const animate = function () { // アニメーション関数を定義
+    const animate = function () {
+      // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
 
       wireframe.rotation.y -= 0.01; // ワイヤーフレームを半時計回りに回転させる
@@ -67,14 +81,27 @@ export default function Mozaiku() { // モザイクコンポーネントを定�
 
     animate(); // アニメーションを開始
 
-    return () => { // クリーンアップ関数を定義
+    return () => {
+      // クリーンアップ関数を定義
       document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div> {/* コンポーネントのルート要素 */}
-      <div style={{ position: 'absolute', top: 15, left: 25, color: 'black', fontFamily: 'Helvetica', fontWeight: 'bold', backgroundColor: 'transparent' }}>
+    <div>
+      {' '}
+      {/* コンポーネントのルート要素 */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 15,
+          left: 25,
+          color: 'black',
+          fontFamily: 'Helvetica',
+          fontWeight: 'bold',
+          backgroundColor: 'transparent',
+        }}
+      >
         {/* スタイルを適用したdiv要素 */}
       </div>
     </div>

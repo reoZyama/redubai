@@ -1,34 +1,21 @@
-"use client"; // Added
+'use client'; // Added
 
-import Animation from "./components/Ellipse";
-import Otameshi from "./components/Otameshi";
-import Mozaik2 from "./components/Mozaik2";
-import Mozaiku from "./components/Mozaiku";
-import Sisaku from "./components/Sisaku";
-import Aggregation from "./components/Aggregation";
-import { useState } from "react";
-  
-
+import Ellipse from './components/Ellipse';
+import Otameshi from './components/Otameshi';
+import Mozaik2 from './components/Mozaik2';
+import Mozaiku from './components/Mozaiku';
+import Aggregation from './components/Aggregation';
+import Title from './components/Title';
 
 export default function Home() {
-  const [isAnimation, setIsAnimation] = useState(false);
-
-  const handleAnimation = () => {
-    setIsAnimation(!isAnimation);
-  };
   return (
     <>
+      <Title />
       <Otameshi />
-      <Animation />
+      <Ellipse />
       <Mozaik2 />
       <Mozaiku />
-      <Sisaku />
       <Aggregation />
-      
-        <div>
-          <h1>Hello World</h1>
-        </div>
-    
     </>
   );
 }
