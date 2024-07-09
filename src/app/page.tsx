@@ -6,6 +6,10 @@ import Mozaik2 from './components/Dodecahedron';
 import Mozaiku from './components/Pentagon';
 import Aggregation from './components/Aggregation';
 import Title from './components/Title';
+import Flows from './components/Flows';
+import Line from './components/Line';
+import Pop from './components/Pop';
+
 
 export default function Home() {
   return (
@@ -16,6 +20,9 @@ export default function Home() {
       <Mozaik2 />
       <Mozaiku />
       <Ellipse />
+      <Flows />
+      <Line />
+      <Pop />
     </>
   );
 }
