@@ -1,7 +1,8 @@
 'use client'; // クライアントサイドで実行することを示す
 
-import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
+import { useEffect, useRef } from 'react'; // ReactのuseEffectフックとuseRefフックをインポート
 import * as THREE from 'three'; // Three.jsライブラリをインポート
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js'; // 拡張子を追加
 import useCurrentWeather from '../hooks/useCurrentWeather'; // カスタムフックuseCurrentWeatherをインポート
 
 export default function Otameshi() {
@@ -48,13 +49,15 @@ export default function Otameshi() {
     const ambientLight = new THREE.AmbientLight(0x404040); // 環境光を作成
     scene.add(ambientLight); // シーンに環境光を追加
 
-    camera.position.z = 15; // カメラの位置を設定
+    camera.position.z = 20; // カメラの位置を設定
 
     let turns = 5; // 螺旋の回転数を定義
 
+    const objects: THREE.Line[] = []; // ドラッグ可能なオブジェクトの配列
+
     const createSpirals = () => {
       // 10本の螺旋を作成
-      const numSpirals = 20; // 螺旋の数を定義
+      const numSpirals = 10; // 螺旋の数を定義
       const numPoints = 50; // 螺旋の点の数
       const radius = 10; // 螺旋の半径
 
@@ -72,8 +75,9 @@ export default function Otameshi() {
           points.push(new THREE.Vector3(x, y, z)); // 点を配列に追加
         }
         const geometry = new THREE.BufferGeometry().setFromPoints(points); // 点の配列からジオメトリを作成
-        const line = new THREE.Line(geometry, material); // ジオメトリとマテリアルから線を作成
+        const line = new THREE.Line(geometry, material); // オメトリとマテリアルから線を作成
         scene.add(line); // シーンに線を追加
+        objects.push(line); // ドラッグ可能なオブジェクトの配列に追加
       }
     };
 
@@ -91,6 +95,8 @@ export default function Otameshi() {
     const animate = function () {
       // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
+
+      scene.rotation.z += 0.0005; // シーン全体を時計回りに回転させる
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
     };
