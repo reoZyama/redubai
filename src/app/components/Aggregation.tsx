@@ -18,19 +18,23 @@ export default function Otameshi() {
    */
 
   useEffect(() => {
-    // コンポーネントがマウントされたときに実行される副作用を定義
-    const scene = new THREE.Scene(); // Three.jsのシーンを作成
+    // Three.jsのシーンを作成
+    const scene = new THREE.Scene();
+
+    // カメラを作成
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
       0.1,
       1000,
-    ); // カメラを作成
-    const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
-    renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
-    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
-    renderer.shadowMap.enabled = true; // 影を有効にする
-    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
+    );
+
+    // レンダラーを作成
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    renderer.shadowMap.enabled = true;
+    document.body.appendChild(renderer.domElement);
 
     // 画面サイズ変更時にレンダラーとカメラのサイズを更新
     const onWindowResize = () => {
@@ -40,67 +44,72 @@ export default function Otameshi() {
     };
     window.addEventListener('resize', onWindowResize);
 
-    const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性ライトを作成
-    light.position.set(5 - 1, 5 - 1, 5 - 1); // ライトの位置を設定
-    light.castShadow = true; // ライトの影を有効にする
-    scene.add(light); // シーンにライトを追加
+    // ライトを作成
+    const light = new THREE.DirectionalLight(0xffffff, 2);
+    light.position.set(5 - 1, 5 - 1, 5 - 1);
+    light.castShadow = true;
+    scene.add(light);
 
-    const ambientLight = new THREE.AmbientLight(0x404040); // 環境光を作成
-    scene.add(ambientLight); // シーンに環境光を追加
+    // 環境光を作成
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
 
-    camera.position.z = 15; // カメラの位置を設定
+    // カメラの位置を設定
+    camera.position.z = 15;
 
+    // ランダムな点を作成する関数
     const createRandomPoints = () => {
-      const numPoints = 1000; // 点の数
-      const radius = 15; // 点の分布半径
+      const numPoints = 1000;
+      const radius = 15;
 
-      const points = []; // 点の配列を作成
-      const colors = []; // 色の配列を作成
+      const points = [];
+      const colors = [];
       for (let i = 0; i < numPoints; i++) {
-        const x = (Math.random() - 0.5) * radius * 2; // x座標をランダムに計算
-        const y = (Math.random() - 0.5) * radius * 2; // y座標をランダムに計算
-        const z = (Math.random() - 0.5) * radius * 2; // z座標をランダムに計算
-        points.push(new THREE.Vector3(x, y, z)); // 点を配列に追加
+        const x = (Math.random() - 0.5) * radius * 2;
+        const y = (Math.random() - 0.5) * radius * 2;
+        const z = (Math.random() - 0.5) * radius * 2;
+        points.push(new THREE.Vector3(x, y, z));
 
-        const color = new THREE.Color(Math.random() * 0xffffff); // ランダムな色を生成
-        colors.push(color.r, color.g, color.b); // 色を配列に追加
+        const color = new THREE.Color(Math.random() * 0xffffff);
+        colors.push(color.r, color.g, color.b);
       }
-      const geometry = new THREE.BufferGeometry().setFromPoints(points); // 点の配列からジオメトリを作成
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
       geometry.setAttribute(
         'color',
         new THREE.Float32BufferAttribute(colors, 3),
-      ); // 色の属性をジオメトリに追加
+      );
       const material = new THREE.PointsMaterial({
         size: 0.1,
         vertexColors: true,
-      }); // 点のマテリアルを作成し、頂点ごとに色を設定
-      const pointCloud = new THREE.Points(geometry, material); // ジオメトリとマテリアルから点群を作成
-      scene.add(pointCloud); // シーンに点群を追加
+      });
+      const pointCloud = new THREE.Points(geometry, material);
+      scene.add(pointCloud);
     };
 
-    createRandomPoints(); // 初回にランダムな点を作成
+    // 初回にランダムな点を作成
+    createRandomPoints();
 
+    // 5秒ごとにランダムな点を再作成
     setInterval(() => {
-      // シーンからすべてのオブジェクトを削除
       while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
       }
-      createRandomPoints(); // 新しいランダムな点を作成
-    }, 5000); // 5秒ごとに実行
+      createRandomPoints();
+    }, 5000);
 
+    // アニメーション関数を定義
     const animate = function () {
-      // アニメーション関数を定義
-      requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
-
-      renderer.render(scene, camera); // シーンとカメラをレンダリング
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
     };
 
-    animate(); // アニメーションを開始
+    // アニメーションを開始
+    animate();
 
+    // クリーンアップ関数を定義
     return () => {
-      // クリーンアップ関数を定義
-      document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
-      window.removeEventListener('resize', onWindowResize); // リサイズイベントリスナーを削除
+      document.body.removeChild(renderer.domElement);
+      window.removeEventListener('resize', onWindowResize);
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
