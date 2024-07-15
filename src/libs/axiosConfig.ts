@@ -19,19 +19,7 @@ const $axios = axios.create({
  * global request interceptor
  */
 $axios.interceptors.request.use((config) => {
-  const newConfig = { ...config };
-  if (typeof window !== 'undefined') {
-    const token = document.cookie
-      .split('; ')
-      .find((_) => _.startsWith('XSRF-TOKEN'))
-      ?.split('=')[1];
-
-    // If you need to URL decode
-    if (token) {
-      newConfig.headers['X-XSRF-TOKEN'] = decodeURIComponent(token);
-    }
-  }
-  return newConfig;
+  return config;
 });
 
 /**
