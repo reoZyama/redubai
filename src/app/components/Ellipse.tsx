@@ -79,6 +79,8 @@ export default function Animation() {
       resolution: new THREE.Vector2(window.innerWidth, window.innerHeight), // 解像度を設定
     });
     const ellipse = new Line2(ellipseLineGeometry, ellipseLineMaterial);
+    ellipse.position.z = 0; // z軸の座標を追加
+    ellipse.userData = { URL: '/next-page' }; // 代わりにイベントリスナーを追加
     return ellipse;
   };
 
@@ -105,6 +107,7 @@ export default function Animation() {
       horizontalLineGeometry,
       horizontalLineMaterial,
     );
+    horizontalLine.position.z = 0; // z軸の座標を追加
     return horizontalLine;
   };
 
@@ -128,6 +131,7 @@ export default function Animation() {
       resolution: new THREE.Vector2(window.innerWidth, window.innerHeight), // 解像度を設定
     });
     const verticalLine = new Line2(verticalLineGeometry, verticalLineMaterial);
+    verticalLine.position.z = 0; // z軸の座標を追加
     return verticalLine;
   };
 
@@ -141,7 +145,6 @@ export default function Animation() {
   /**
    * アニメーション
    */
-
   const animate = (
     renderer: THREE.WebGLRenderer,
     scene: THREE.Scene,
@@ -152,6 +155,9 @@ export default function Animation() {
 
     // シーンとカメラをレンダリング
     renderer.render(scene, camera);
+
+    // シーン全体をz軸で回転させる
+    // scene.rotation.z += 0.01; // 楕円の回転を止めるためにコメントアウト
   };
 
   /**

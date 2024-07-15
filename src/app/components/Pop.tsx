@@ -50,24 +50,18 @@ export default function Otameshi() {
 
     camera.position.z = 30; // カメラの位置を設定
 
-    const createSpheres = () => {
-      for (let i = 0; i < 10; i++) {
-        const size = 2; // サイズを固定
-        const geometry = new THREE.CircleGeometry(size, 32); // 正円のジオメトリを作成
-        const material = new THREE.MeshBasicMaterial({
-          color: 0x000000,
-        }); // 正円のマテリアルを作成し、色を黒に設定
-        const circle = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルから正円を作成
-        circle.position.set(
-          i * 1 - 25, // 正円を横並びに配置
-          0,
-          0,
-        ); // 正円の位置を設定
-        scene.add(circle); // シーンに正円を追加
-      }
+    const createSphere = () => {
+      const size = 2; // サイズを固定
+      const geometry = new THREE.CircleGeometry(size, 32); // 正円のジオメトリを作成
+      const material = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+      }); // 正円のマテリアルを作成し、色を黒に設定
+      const circle = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルから正円を作成
+      circle.position.set(0, 0, 0); // 正円の位置を設定
+      scene.add(circle); // シーンに正円を追加
     };
 
-    createSpheres(); // 初回に正円を作成
+    createSphere(); // 初回に正円を作成
 
     const animate = function () {
       // アニメーション関数を定義

@@ -9,6 +9,7 @@ import Title from './components/Title';
 import Flows from './components/Flows';
 import Line from './components/Line';
 import Pop from './components/Pop';
+import Marble from './components/Marble'; // Corrected import path
 
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <Flows />
       <Line />
       <Pop />
+      <Marble />
     </>
   );
 }

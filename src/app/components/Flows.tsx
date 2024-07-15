@@ -28,7 +28,7 @@ export default function Otameshi() {
     ); // カメラを作成
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
-    renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
+    renderer.setClearColor(0x000000, 0); // 背を透明に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
@@ -55,7 +55,8 @@ export default function Otameshi() {
     const createSpirals = () => {
       // 10本の螺旋を作成
       const numSpirals = 8; // 螺旋の数を定義
-      const numPoints = 5000; // 螺旋の点の数
+      const points: THREE.Vector3[][] = []; // 点の配列を作成
+      const numPoints = 2000; // 螺旋の点の数
       const radius = 10; // 螺旋の半径
 
       for (let j = 0; j < numSpirals; j++) {
@@ -63,16 +64,16 @@ export default function Otameshi() {
           color: Math.random() * 0xffffff,
           size: 0.1,
         }); // 点のマテリアルを作成し、色をランダムに設定
-        const points = []; // 点の配列を作成
         const randomTurns = turns + Math.floor(Math.random() * 5) - 2; // 螺旋の回転数をランダムに増減
         for (let i = 0; i < numPoints; i++) {
           const angle = (i * (randomTurns * 6 * Math.PI)) / numPoints; // 螺旋の角度を計算
           const x = radius * Math.cos(angle + (j * 2 * Math.PI) / numSpirals); // x座標を計算
           const y = radius * Math.sin(angle + (j * 2 * Math.PI) / numSpirals); // y座標を計算
           const z = (i / numPoints) * 10 - 5; // z座標を計算
-          points.push(new THREE.Vector3(x, y, z)); // 点を配列に追加
+          if (!points[j]) points[j] = []; // points[j]が未定義の場合、空の配列を初期化
+          points[j].push(new THREE.Vector3(x, y, z)); // 点を配列に追加
         }
-        const geometry = new THREE.BufferGeometry().setFromPoints(points); // 点の配列からジオメトリを作成
+        const geometry = new THREE.BufferGeometry().setFromPoints(points.flat()); // 点の配列からジオメトリを作成
         const pointCloud = new THREE.Points(geometry, material); // ジオメトリとマテリアルから点群を作成
         scene.add(pointCloud); // シーンに点群を追加
       }
@@ -93,15 +94,13 @@ export default function Otameshi() {
       // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
 
-      const latitude = 25.2667 * (Math.PI / 180); // 北緯25度16分をラジアンに変換
-      const longitude = 55.3333 * (Math.PI / 180); // 東経55度20分をラジアンに変換
+      const latitude = 0 * (Math.PI / 180); // 北緯0度をラジアンに変換
       const radius = 20; // カメラの半径を設定
 
-      camera.position.x =
-        radius * Math.cos(Date.now() * 0.001) * Math.cos(latitude); // カメラのx座標を計算
-      camera.position.y =
-        radius * Math.sin(Date.now() * 0.001) * Math.cos(latitude); // カメラのy座標を計算
-      camera.position.z = radius * Math.sin(latitude); // カメラのz座標を計算
+      const time = Date.now() * 0.001; // 時間を取得
+      camera.position.x = radius * Math.cos(time); // カメラのx座標を計算
+      camera.position.y = radius * Math.sin(time); // カメラのy座標を計算
+      camera.position.z = radius * Math.sin(latitude); // カメラ��z座標を計算
       camera.lookAt(0, 0, 0); // カメラを原点に向ける
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
