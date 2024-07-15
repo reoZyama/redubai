@@ -15,6 +15,7 @@ import Weather from './components/Weather';
 export default function Home() {
   return (
     <>
+      <Weather />
       <Otameshi />
       <Title />
       <Aggregation />
@@ -25,7 +26,6 @@ export default function Home() {
       <Line />
       <Pop />
       <Marble />
-      <Weather />
     </>
   );
 }

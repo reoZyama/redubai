@@ -6,7 +6,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const $axios = axios.create({
-  baseURL: 'https://api.weatherapi.com/v1',
+  baseURL: 'http://localhost:3000',
+  // baseURL: 'https://api.weatherapi.com/v1',
   responseType: 'json',
   withCredentials: true,
   headers: {

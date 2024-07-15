@@ -20,9 +20,7 @@ export default function RootLayout({
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </head>
         <body>
-          <SWRProvider>
-            {children}
-          </SWRProvider>
+          <SWRProvider>{children}</SWRProvider>
         </body>
       </html>
     </React.Fragment>

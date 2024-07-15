@@ -43,6 +43,7 @@ TypeScript の記事が良い
   - 関数の定義
 - ドット演算子
 - 型
+  - string, int, boolean, array, object, function, class, enum, map
   - type
   - interface
 - 順次処理
@@ -98,3 +99,10 @@ console.log(確認したい変数)
 ## Weather API
 
 https://www.weatherapi.com/docs/
+
+## React hooks
+
+useCurrentWeather
+
+- Free weather API の Realtime API を使用している
+  https://www.weatherapi.com/docs/
