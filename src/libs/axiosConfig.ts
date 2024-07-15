@@ -6,11 +6,12 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const $axios = axios.create({
-  baseURL: 'http://api.weatherapi.com/v1',
+  baseURL: 'https://api.weatherapi.com/v1',
   responseType: 'json',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
+    key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
   },
 });
 

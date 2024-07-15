@@ -10,7 +10,7 @@ import Flows from './components/Flows';
 import Line from './components/Line';
 import Pop from './components/Pop';
 import Marble from './components/Marble'; // Corrected import path
-
+import Weather from './components/Weather';
 
 export default function Home() {
   return (
@@ -25,6 +25,7 @@ export default function Home() {
       <Line />
       <Pop />
       <Marble />
+      <Weather />
     </>
   );
 }

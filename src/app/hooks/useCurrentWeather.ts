@@ -12,7 +12,7 @@ const useCurrentWeather = () => {
   //   temp_c: 8.7,
   // };
 
-  const url = `/current.json`;
+  const url = `/current.json?q=25.2048,55.2708`;
   const { data, mutate, error } = useSWR<ResponseDto>(() => url);
 
   const fetch = () => mutate(data);
