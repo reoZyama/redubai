@@ -20,10 +20,14 @@ export default function Mozaiku() {
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
     // ウィンドウのリサイズに対応
-    window.addEventListener('resize', () => {
+    function handleWindowResize(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    window.addEventListener('resize', () => {
+      handleWindowResize(camera, renderer);
     });
 
     const light = new THREE.DirectionalLight(0xffffff, 2); // 指向性ライトを作成し、光の強さを2に設定
@@ -85,7 +89,7 @@ export default function Mozaiku() {
       // クリーンアップ関数を定義
       document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
     };
-  }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
+  }, []); // 空の依存配列を渡して、コンポ��ネントのマウントとアンマウント時にのみ実行
 
   return (
     <div>
