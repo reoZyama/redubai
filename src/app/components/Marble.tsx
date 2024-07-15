@@ -31,7 +31,8 @@ export default function Marble() {
     // ランダムな形を作成する関数
     const randomShape = () => {
       const shape = new THREE.Shape();
-      for (let i = 0; i < 7; i++) { // 頂点の数を7つに変更
+      for (let i = 0; i < 7; i++) {
+        // 頂点の数を7つに変更
         shape.lineTo(Math.random() * 10 - 5, Math.random() * 10 - 5);
       }
       return shape;
@@ -39,7 +40,9 @@ export default function Marble() {
 
     // ジオメトリとマテリアルの作成
     const geometry = new THREE.ShapeGeometry(randomShape()); // ランダムな形を作成
-    const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff }); // ランダムな色のマテリアルを作成
+    const material = new THREE.MeshBasicMaterial({
+      color: Math.random() * 0xffffff,
+    }); // ランダムな色のマテリアルを作成
     const amoeba = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルからメッシュを作成
     scene.add(amoeba); // シーンにアメーバを追加
 

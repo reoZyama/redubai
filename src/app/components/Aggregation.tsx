@@ -75,7 +75,9 @@ export default function Otameshi() {
         target.copy(intersects[0].point);
       } else {
         // マウスカーソルがオブジェクトに当たらない場合、カメラの前方に設定
-        const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
+        const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(
+          camera,
+        );
         const dir = vector.sub(camera.position).normalize();
         const distance = -camera.position.z / dir.z;
         target.copy(camera.position).add(dir.multiplyScalar(distance));
@@ -132,7 +134,8 @@ export default function Otameshi() {
           const dz = target.z - point[i * 3 + 2];
           const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
           const speed = 0.03; // 追尾速度を速くする
-          if (distance > 0.01) { // 追尾範囲を狭くする
+          if (distance > 0.01) {
+            // 追尾範囲を狭くする
             point[i * 3] += (dx / distance) * speed;
             point[i * 3 + 1] += (dy / distance) * speed;
             point[i * 3 + 2] += (dz / distance) * speed;

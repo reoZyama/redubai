@@ -94,3 +94,7 @@ console.log(確認したい変数)
 
 - F12 の Console タブを確認
 - 出力される
+
+## Weather API
+
+https://www.weatherapi.com/docs/

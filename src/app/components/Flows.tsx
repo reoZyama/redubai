@@ -73,7 +73,9 @@ export default function Otameshi() {
           if (!points[j]) points[j] = []; // points[j]が未定義の場合、空の配列を初期化
           points[j].push(new THREE.Vector3(x, y, z)); // 点を配列に追加
         }
-        const geometry = new THREE.BufferGeometry().setFromPoints(points.flat()); // 点の配列からジオメトリを作成
+        const geometry = new THREE.BufferGeometry().setFromPoints(
+          points.flat(),
+        ); // 点の配列からジオメトリを作成
         const pointCloud = new THREE.Points(geometry, material); // ジオメトリとマテリアルから点群を作成
         scene.add(pointCloud); // シーンに点群を追加
       }

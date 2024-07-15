@@ -53,7 +53,9 @@ export default function Otameshi() {
     return () => {
       // クリーンアップ関数を定義
       document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
-      window.removeEventListener('resize', () => onWindowResize(camera, renderer)); // リサイズイベントリスナーを削除
+      window.removeEventListener('resize', () =>
+        onWindowResize(camera, renderer),
+      ); // リサイズイベントリスナーを削除
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
@@ -104,7 +106,10 @@ const createRenderer = () => {
 /**
  * ウィンドウのリサイズに対応
  */
-const onWindowResize = (camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) => {
+const onWindowResize = (
+  camera: THREE.PerspectiveCamera,
+  renderer: THREE.WebGLRenderer,
+) => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -151,7 +156,11 @@ const createSpirals = (scene: THREE.Scene, turns: number) => {
 /**
  * アニメーションを開始
  */
-const animate = (scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) => {
+const animate = (
+  scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+  renderer: THREE.WebGLRenderer,
+) => {
   const animateFunction = function () {
     requestAnimationFrame(animateFunction); // 次のフレームで再度アニメーション関数を呼び出す
 

@@ -20,7 +20,10 @@ export default function Mozaiku() {
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
     // ウィンドウのリサイズに対応
-    function handleWindowResize(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
+    function handleWindowResize(
+      camera: THREE.PerspectiveCamera,
+      renderer: THREE.WebGLRenderer,
+    ) {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);

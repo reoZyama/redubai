@@ -1,18 +1,26 @@
-type Response = {
+import useSWR from 'swr';
+
+type ResponseDto = {
   temp_c: number;
 };
 
 /**
- * TODO: 後から実装
  * @doc https://www.weatherapi.com/docs/#apis-realtime
  */
 const useCurrentWeather = () => {
-  const data: Response = {
-    temp_c: 8.7,
-  };
+  // const data: Response = {
+  //   temp_c: 8.7,
+  // };
+
+  const url = `/current.json`;
+  const { data, mutate, error } = useSWR<ResponseDto>(() => url);
+
+  const fetch = () => mutate(data);
 
   return {
     data,
+    fetch,
+    error,
   };
 };
 
