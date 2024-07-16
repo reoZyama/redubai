@@ -23,9 +23,9 @@ export default function Otameshi() {
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0x000000, 0); // 背を明に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
-    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキ��メトに追加
+    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素ドキト
 
-    // 画面サイズ変更時にレンダラーとカメラのサイズを更新
+    // 画面サ��ズ変更時にレンダラーとカメラのサイズを更新
     const onWindowResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -43,15 +43,20 @@ export default function Otameshi() {
 
     camera.position.z = 15; // カメラの置を設定
 
-    // 水平線をシーンに追加
-    for (let i = -5; i < 15; i++) {
-      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: -10 }); // 線のマテリアルを作成し、線幅を狭める
+    // 水平線をシーンに追加し、ランダムに波打たせる
+    for (let i =1; i < 9; i++) {
+      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 20 }); // 線のマテリアルを作成し、線幅を広げる
       const lineGeometry = new THREE.BufferGeometry(); // ジオメトリを作成
-      lineGeometry.setFromPoints([
-        new THREE.Vector3(-22, i * 2 - 10, 0),
-        new THREE.Vector3(22, i * 2 - 10, 0),
-      ]); // 線の始点と終点を設定
+      const vertices = []; // 頂点の配列を作成
+      const waveAmplitude = Math.random() * 5; // 波の振幅をランダムに定
+      const waveFrequency = Math.random() * 3; // 波の周���数をランダムに設定
+      for (let j = -22; j <= 22; j++) {
+        // ランダムなY座標を追加して線を波打たせる
+        vertices.push(new THREE.Vector3(j, i * 2 - 10 + Math.sin(j * waveFrequency) * waveAmplitude, 0));
+      }
+      lineGeometry.setFromPoints(vertices); // 頂点の配列からジオメトリを作成
       const line = new THREE.Line(lineGeometry, lineMaterial); // 線を作成
+      line.geometry.computeVertexNormals(); // 立体線のための頂点法線を計算
       scene.add(line); // シーンに線を追加
     }
 

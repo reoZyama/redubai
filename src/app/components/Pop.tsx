@@ -17,10 +17,10 @@ export default function Pop() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
 
-  const geometry = new THREE.BufferGeometry().setFromPoints(new THREE.EllipseCurve(0, 0, 5, 5, 0, 2 * Math.PI).getPoints()); // 楕円ジオメトリを使用して楕円を作成
-  const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-  const ellipse = new THREE.Mesh(geometry, material);
-  scene.add(ellipse);
+  const geometry = new THREE.SphereGeometry(1, 32, 32); // 球のジオメトリを作成
+  const material = new THREE.MeshBasicMaterial({ color: 0xffff00 }); // 球のマテリアルを作成
+  const sphere = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルから球を作成
+  scene.add(sphere); // シーンに球を追加
 
   camera.position.z = 5;
 
@@ -30,6 +30,15 @@ export default function Pop() {
   }
 
   animate();
+
+  const onWindowResize = (
+    camera: THREE.PerspectiveCamera,
+    renderer: THREE.WebGLRenderer,
+  ) => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  };
 
   return null;
 }

@@ -20,14 +20,11 @@ export default function Mozaiku() {
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
     // ウィンドウのリサイズに対応
-    function handleWindowResize(
-      camera: THREE.PerspectiveCamera,
-      renderer: THREE.WebGLRenderer,
-    ) {
+    const handleWindowResize = (camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-    }
+    };
 
     window.addEventListener('resize', () => {
       handleWindowResize(camera, renderer);
@@ -44,13 +41,13 @@ export default function Mozaiku() {
     camera.position.z = 10; // カメラの位置を設定
 
     // 正十二面体のジオメトリを作成
-    const geometry = new THREE.DodecahedronGeometry(5); // サイズ5の正十二面体ジオメトリを作成
+    const geometry = new THREE.DodecahedronGeometry(2); // サイズ2の正十二面体ジオメトリを作成（サイズを小さく変更）
 
     // 輪郭のみの描写にするためのエッジジオメトリを作成
     const edges = new THREE.EdgesGeometry(geometry); // エッジジオメトリを作成
     const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 }); // 黒色のラインマテリアルを作成
     const wireframe = new THREE.LineSegments(edges, lineMaterial); // エッジジオメトリとラインマテリアルからラインセグメントを作成
-    scene.add(wireframe); // シーンにワイヤーフレームを追加
+    scene.add(wireframe); // シー���にイヤーフレームを追加
 
     // 正十二面体の対角線を作成
     const vertices = geometry.attributes.position.array; // 正十二面体の頂点を取得
@@ -76,12 +73,50 @@ export default function Mozaiku() {
     ); // ジオメトリとマテリアルからラインセグメントを作成
     scene.add(diagonals); // シーンに対角線を追加
 
-    const animate = function () {
+    // Copy vertices and diagonals with further modified positions and colors
+    const copiedVertices = vertices.map((vertex, index) => {
+      if (index % 3 === 0) {
+        return vertex + 5; // Modify x-coordinate with a larger offset
+      } else if (index % 3 === 1) {
+        return vertex - 5; // Modify y-coordinate with a larger offset
+      } else {
+        return vertex; // Keep z-coordinate unchanged
+      }
+    });
+
+    const copiedDiagonalGeometry = diagonalGeometry.clone(); // Clone diagonal geometry
+
+    // Modify positions of the copied diagonals
+    let newPositions = [];
+    for (let i = 0; i < vertices.length; i += 3) {
+      for (let j = i + 3; j < vertices.length; j += 3) {
+        newPositions.push(copiedVertices[i], copiedVertices[i + 1], copiedVertices[i + 2]);
+        newPositions.push(copiedVertices[j], copiedVertices[j + 1], copiedVertices[j + 2]);
+      }
+    }
+    copiedDiagonalGeometry.setAttribute(
+      'position',
+      new THREE.Float32BufferAttribute(newPositions, 3),
+    );
+
+    // Modify color of the copied diagonals
+    const modifiedDiagonalMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 }); // Green color
+    const copiedDiagonals = new THREE.LineSegments(
+      copiedDiagonalGeometry,
+      modifiedDiagonalMaterial,
+    );
+    scene.add(copiedDiagonals); // Add modified diagonals to the scene
+
+    // Adjust the position of the cloned object so that one vertex of the clone and the original object overlap
+    copiedDiagonals.position.set(0, 0, 0); // Set the position of the cloned diagonals to (0, 0, 0)
+
+    const animate = () => {
       // アニメーション関数を定義
       requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
 
       wireframe.rotation.y -= 0.01; // ワイヤーフレームを半時計回りに回転させる
       diagonals.rotation.y -= 0.01; // 対角線も半時計回りに回転させる
+      copiedDiagonals.rotation.y -= 0.01; // クローンの対角線も半時計回りに回転させる
 
       renderer.render(scene, camera); // シーンとカメラをレンダリング
     };
@@ -92,12 +127,12 @@ export default function Mozaiku() {
       // クリーンアップ関数を定義
       document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
     };
-  }, []); // 空の依存配列を渡して、コンポ��ネントのマウントとアンマウント時にのみ実行
+  }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
     <div>
       {' '}
-      {/* コンポーネントのルート要素 */}
+      {/* コンポーネントのルト要素 */}
       <div
         style={{
           position: 'absolute',

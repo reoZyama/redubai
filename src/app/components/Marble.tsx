@@ -32,7 +32,7 @@ export default function Marble() {
     const randomShape = () => {
       const shape = new THREE.Shape();
       for (let i = 0; i < 7; i++) {
-        // 頂点の数を7つに変更
+        // 頂点の数を7つに変更し、z軸を反映させる
         shape.lineTo(Math.random() * 10 - 5, Math.random() * 10 - 5);
       }
       return shape;
@@ -46,9 +46,13 @@ export default function Marble() {
     const amoeba = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルからメッシュを作成
     scene.add(amoeba); // シーンにアメーバを追加
 
+
     // アニメーション関数
     const animate = function () {
       requestAnimationFrame(animate);
+      // amoeba.rotation.x += 0.01; // X軸周りに回転
+      // amoeba.rotation.y += 0.01; // Y軸周りに回転
+      // amoeba.rotation.z += 0.01; // Z軸周りに回転
       renderer.render(scene, camera);
     };
 

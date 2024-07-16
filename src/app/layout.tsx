@@ -1,6 +1,6 @@
+import React from 'react';
 import { SWRProvider } from '@/libs/swr';
 import { CssBaseline } from '@mui/material';
-import React from 'react';
 
 export const metadata = {
   title: 'Next.js',

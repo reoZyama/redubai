@@ -10,14 +10,6 @@ export default function Otameshi() {
   const { data } = useCurrentWeather(); // useCurrentWeatherフックからデータを取得
   // data.temp_c ==> 8.7
 
-  /**
-   * 赤 = 1 ~ 5
-   * 青 = 6 ~ 10
-   *
-   * data.temp_c を関数の引数に与え、色を取得する
-   * 色を threejs のオブジェクトに当てる
-   */
-
   useEffect(() => {
     // コンポーネントがマウントされたときに実行される副作用を定義
     const scene = new THREE.Scene(); // Three.jsのシーンを作成
@@ -98,7 +90,7 @@ export default function Otameshi() {
 
       scene.rotation.z += 0.0005; // シーン全体を時計回りに回転させる
 
-      renderer.render(scene, camera); // シーンとカメラをレンダリング
+      renderer.render(scene, camera); // シーンと��メラをレンダリング
     };
 
     animate(); // アニメーションを開始
