@@ -44,30 +44,19 @@ export default function Otameshi() {
     camera.position.z = 15; // カメラの置を設定
 
     // 水平線をシーンに追加
-    let lines = [];
-    for (let i = 1; i < 9; i++) {
-      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 10000 }); // 線のマテリアルを作成し、線幅を設定
-      const lineGeometry = new THREE.BufferGeometry(); // ジオメを
-      const vertices = []; // 頂点の配列を作成
-      for (let j = -22; j <= 22; j++) {
-        // Y座標を追加して線を水平に設定
-
-        vertices.push(new THREE.Vector3(j, i * 2 - 10, 0));
-      }
-      lineGeometry.setFromPoints(vertices); // 頂点の配列からジオメトリを作成
-      const line = new THREE.Line(lineGeometry, lineMaterial); // 線を作成
-      line.geometry.computeVertexNormals(); // 立体線のための頂点法線を計算
-      scene.add(line); // シーンに線を追加
-      lines.push(line); // 線を配列に追加
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 10000 }); // 線のマテリアルを作成し、線幅を設定
+    const lineGeometry = new THREE.BufferGeometry(); // ジオメを
+    const vertices = []; // 頂点の配列を作成
+    for (let j = -22; j <= 22; j++) {
+      // Y座標を追加して線を水平に設定
+      vertices.push(new THREE.Vector3(j, 0, 0));
     }
+    lineGeometry.setFromPoints(vertices); // 頂点の配列からジオメトリを作成
+    const line = new THREE.Line(lineGeometry, lineMaterial); // 線を作成
+    line.geometry.computeVertexNormals(); // 立体線のための頂点法線を計算
+    scene.add(line); // シーンに線を追加
 
-    const animate = function () {
-      // アニメーション関数を定義
-      requestAnimationFrame(animate); // 次のフレームで再度アニメーション関数を呼び出す
-      renderer.render(scene, camera); // シーンとカメラをレンダリング
-    };
-
-    animate(); // アニメーションを開始
+    renderer.render(scene, camera); // シーンとカメラをレンダリング
 
     // マウスが近くにあるかどうかを監視
     const onMouseMove = (event: MouseEvent) => { // 'event' パラメーターの型を 'MouseEvent' に指定
@@ -79,17 +68,6 @@ export default function Otameshi() {
       const intersects = raycaster.intersectObjects(scene.children, true);
       if (intersects.length > 0) {
         setIsMouseNear(true); // マウスがシーン内のオブジェクトに近くにある場合はtrueを設定
-        // マウスカーソルが触れた時に、ランダムに波打つようにする
-        lines.forEach((line) => {
-          line.geometry.attributes.position.needsUpdate = true; // 'verticesNeedUpdate' を 'needsUpdate' に変更
-          // カーソルが触れた時に線にランダムな波打つアニメーションを追加
-          const vertices = line.geometry.attributes.position.array;
-          for (let i = 0; i < vertices.length; i += 3) {
-            // ランダムな値をY座標に追加して線に波打つアニメーションを追加
-            vertices[i + 1] += Math.random() * 0.1 - 0.05; // Y座標にランダムな値を追加
-          }
-          line.geometry.attributes.position.needsUpdate = true; // 頂点の更新を通知
-        });
       } else {
         setIsMouseNear(false); // そうでない場合はfalseを設定
       }
