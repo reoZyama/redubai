@@ -11,21 +11,23 @@ import Line from './components/Line';
 import Pop from './components/Pop';
 import Marble from './components/Marble'; // Corrected import path
 import Weather from './components/Weather';
+import Kimetenai from   './components/Weather';
 
 export default function Home() {
   return (
     <>
-      <Weather />
-      <Otameshi />
-      <Title />
-      <Aggregation />
-      <Mozaik2 />
-      <Mozaiku />
-      <Ellipse />
-      <Flows />
-      <Line />
+      {/* <Weather /> */}
+      {/* <Otameshi /> */}
+      {/* <Title /> */}
+      {/* <Aggregation /> */}
+      {/* <Mozaik2 /> */}
+      {/* <Mozaiku /> */}
+      {/* <Ellipse /> */}
+      {/* <Flows /> */}
+      {/* <Line /> */}
       <Pop />
-      <Marble />
+      {/* <Marble /> */}
+      {/* <Kimetenai />  */}
     </>
   );
 }
