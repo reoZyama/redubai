@@ -16,19 +16,19 @@ import Grass from './components/Grass'
 export default function Home() {
   return (
     <>
-      {/* <Title /> */}
-      {/* <Prototype /> */}
-      {/* <Weather /> */}
+      <Prototype />
+      <Title />
+      <Weather />
+      <Line />
+      <Aggregation />
+      <Marble />
       {/* <Ellipse /> */}
-      {/* <Aggregation /> */}
-      {/* <Dodecahedron /> */}
-      {/* <Pentagon /> */}
-      {/* <Flows /> */}
-      {/* <Line /> */}
-      <Pop />
-      {/* <Marble /> */}
+      <Dodecahedron />
+      <Pentagon />
+      <Flows />
+      {/* <Pop /> */}
       {/* <Tenki /> */}
-      <Grass />
+      {/* <Grass /> */}
     </>
   );
 }

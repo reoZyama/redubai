@@ -80,11 +80,11 @@ export default function Weather() {
       <Box
         sx={{
           backgroundColor: getTempColor(data.weather.current.temp_c),
-          width: '100px',
+          width: '1512px',
           height: '100px',
         }}
       >
-        気温
+        
       </Box>
     </div>
   ) : (
