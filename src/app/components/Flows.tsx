@@ -46,7 +46,10 @@ export default function Otameshi() {
     // 水平線をシーンに追加
     let lines = [];
     for (let i = 1; i < 9; i++) {
-      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 10000 }); // 線のマテリアルを作成し、線幅を設定
+      const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x0000ff,
+        linewidth: 10000,
+      }); // 線のマテリアルを作成し、線幅を設定
       const lineGeometry = new THREE.BufferGeometry(); // ジオメを
       const vertices = []; // 頂点の配列を作成
       for (let j = -22; j <= 22; j++) {
@@ -70,7 +73,8 @@ export default function Otameshi() {
     animate(); // アニメーションを開始
 
     // マウスが近くにあるかどうかを監視
-    const onMouseMove = (event: MouseEvent) => { // 'event' パラメーターの型を 'MouseEvent' に指定
+    const onMouseMove = (event: MouseEvent) => {
+      // 'event' パラメーターの型を 'MouseEvent' に指定
       const mouse = new THREE.Vector2();
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;

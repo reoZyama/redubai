@@ -20,7 +20,10 @@ export default function Mozaiku() {
     document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
 
     // ウィンドウのリサイズに対応
-    const handleWindowResize = (camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) => {
+    const handleWindowResize = (
+      camera: THREE.PerspectiveCamera,
+      renderer: THREE.WebGLRenderer,
+    ) => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -90,8 +93,16 @@ export default function Mozaiku() {
     let newPositions = [];
     for (let i = 0; i < vertices.length; i += 3) {
       for (let j = i + 3; j < vertices.length; j += 3) {
-        newPositions.push(copiedVertices[i], copiedVertices[i + 1], copiedVertices[i + 2]);
-        newPositions.push(copiedVertices[j], copiedVertices[j + 1], copiedVertices[j + 2]);
+        newPositions.push(
+          copiedVertices[i],
+          copiedVertices[i + 1],
+          copiedVertices[i + 2],
+        );
+        newPositions.push(
+          copiedVertices[j],
+          copiedVertices[j + 1],
+          copiedVertices[j + 2],
+        );
       }
     }
     copiedDiagonalGeometry.setAttribute(
@@ -100,7 +111,9 @@ export default function Mozaiku() {
     );
 
     // Modify color of the copied diagonals
-    const modifiedDiagonalMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 }); // Green color
+    const modifiedDiagonalMaterial = new THREE.LineBasicMaterial({
+      color: 0x00ff00,
+    }); // Green color
     const copiedDiagonals = new THREE.LineSegments(
       copiedDiagonalGeometry,
       modifiedDiagonalMaterial,

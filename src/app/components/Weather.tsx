@@ -83,9 +83,7 @@ export default function Weather() {
           width: '1512px',
           height: '100px',
         }}
-      >
-        
-      </Box>
+      ></Box>
     </div>
   ) : (
     <CircularProgress />

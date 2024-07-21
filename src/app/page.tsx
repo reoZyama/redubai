@@ -11,8 +11,8 @@ import Line from './components/Line';
 import Marble from './components/Marble'; // Corrected import path
 import Weather from './components/Weather';
 import Pop from './components/Pop'; // Changed backticks to single quotes
-import Tenki from './components/Tenki'
-import Grass from './components/Grass'
+import Tenki from './components/Tenki';
+import Grass from './components/Grass';
 export default function Home() {
   return (
     <>
