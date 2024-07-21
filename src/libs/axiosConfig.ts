@@ -12,7 +12,7 @@ const $axios = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
+    key: process.env.WEATHER_API_KEY,
   },
 });
 

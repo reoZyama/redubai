@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q');
   const url = `https://api.weatherapi.com/v1/current.json?q=${q}&key=${
-    process.env.NEXT_PUBLIC_WEATHER_API_KEY
+    process.env.WEATHER_API_KEY
   }`;
 
   try {
