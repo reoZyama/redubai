@@ -74,90 +74,70 @@ export default function Otameshi() {
       if (intersects.length > 0) {
         target.copy(intersects[0].point);
       } else {
-        // マウスカーソルがオブジェクトに当たらない場合、カメラの前方に設定
-        const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(
-          camera,
-        );
-        const dir = vector.sub(camera.position).normalize();
-        const distance = -camera.position.z / dir.z;
-        target.copy(camera.position).add(dir.multiplyScalar(distance));
+      
       }
     };
     window.addEventListener('mousemove', onMouseMove);
 
-    // ランダムな点を作成する関数
-    const createRandomPoints = () => {
-      const numPoints = 2000;
+    // ランダムな四角形を作成する関数
+    const createRandomSquares = () => {
+      const numSquares = 2000;
       const radius = 15;
-      const points = [];
+      const squares = [];
       const colors = [];
-      for (let i = 0; i < numPoints; i++) {
+      for (let i = 0; i < numSquares; i++) {
+        // ランダムなx、y座標を設定
         const x = (Math.random() - 0.5) * radius * 2;
         const y = (Math.random() - 0.5) * radius * 2;
-        const z = (Math.random() - 0.5) * radius * 2;
-        points.push(new THREE.Vector3(x, y, z));
+        squares.push(new THREE.Vector3(x, y, 0)); // z軸座標を0に設定
 
         const color = new THREE.Color(Math.random() * 0xffffff);
         colors.push(color.r, color.g, color.b);
       }
-      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const geometry = new THREE.BufferGeometry().setFromPoints(squares);
       geometry.setAttribute(
         'color',
         new THREE.Float32BufferAttribute(colors, 3),
       );
+      // 四角形のサイズを5倍に変更
       const material = new THREE.PointsMaterial({
-        size: 0.1,
+        size: 0.5, // 0.1から0.5に変更
         vertexColors: true,
       });
-      const pointCloud = new THREE.Points(geometry, material);
-      scene.add(pointCloud);
+      const squareCloud = new THREE.Points(geometry, material);
+      scene.add(squareCloud);
 
-      // 5秒ごとに点の色を変更
-      setInterval(() => {
-        const newColors = [];
-        for (let i = 0; i < numPoints; i++) {
-          const newColor = new THREE.Color(Math.random() * 0xffffff);
-          newColors.push(newColor.r, newColor.g, newColor.b);
-        }
-        geometry.setAttribute(
-          'color',
-          new THREE.Float32BufferAttribute(newColors, 3),
-        );
-      }, 5000);
-
-      // マウスカーソルを追いかけるように点を移動
-      const animatePoints = () => {
-        for (let i = 0; i < numPoints; i++) {
-          const point = geometry.attributes.position.array;
-          const dx = target.x - point[i * 3];
-          const dy = target.y - point[i * 3 + 1];
-          const dz = target.z - point[i * 3 + 2];
-          const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      // マウスカーソルを追いかけるように四角形を移動
+      const animateSquares = () => {
+        for (let i = 0; i < numSquares; i++) {
+          const square = geometry.attributes.position.array;
+          const dx = target.x - square[i * 3];
+          const dy = target.y - square[i * 3 + 1];
+          const distance = Math.sqrt(dx * dx + dy * dy);
           const speed = 0.03; // 追尾速度を速くする
-          if (distance > 0.01) {
+          if (distance > 0.01 && distance < 0.8) { // 50pxの範囲内に制限
             // 追尾範囲を狭くする
-            point[i * 3] += (dx / distance) * speed;
-            point[i * 3 + 1] += (dy / distance) * speed;
-            point[i * 3 + 2] += (dz / distance) * speed;
+            square[i * 3] += (dx / distance) * speed;
+            square[i * 3 + 1] += (dy / distance) * speed;
           }
         }
         geometry.attributes.position.needsUpdate = true;
       };
 
-      return animatePoints;
+      return animateSquares;
     };
 
-    // 初回にランダムな点を作成
-    const animatePoints = createRandomPoints();
+    // 初回にランダムな四角形を作成
+    const animateSquares = createRandomSquares();
 
     // アニメーション関数を定義
     const animate = function () {
       requestAnimationFrame(animate);
-      animatePoints();
+      animateSquares();
       renderer.render(scene, camera);
     };
 
-    // アニメーションを開��
+    // アニメーションを開
     animate();
 
     // クリーンアップ関数を定義
