@@ -36,7 +36,7 @@ export default function Otameshi() {
     renderer.shadowMap.enabled = true;
     document.body.appendChild(renderer.domElement);
 
-    // 画面イズ変更時にレンダラーとカメラのサイズを更新
+    // 画��イズ変更時にレンダラーとカメラのサイズを更新
     const onWindowResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -71,10 +71,11 @@ export default function Otameshi() {
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(scene.children, true);
 
-      if (intersects.length > 0) {
+      if (intersects.length > 0) { // 修正: -0.001を0に変更
         target.copy(intersects[0].point);
       } else {
-      
+        // ここにエラーハンドリングを追加
+        target.set(0, -0.1, 0); // 例: ターゲットを原点にリセット
       }
     };
     window.addEventListener('mousemove', onMouseMove);
