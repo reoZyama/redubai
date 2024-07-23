@@ -6,8 +6,8 @@ const tempColorMap: { [key: number]: string } = {
   0: '#0000FF', // 青 (寒い)
   10: '#00FFFF', // シアン (涼しい)
   20: '#00FF00', // 緑 (適温)
-  30: '#FFFF00', // 黄色 (暖かい)
-  40: '#FF0000', // 赤 (暑い)
+  30: '#FF0000', // 赤色 (暖かい)
+  40: '#000000', // 黒 (暑い)
 } as const;
 
 export default function Weather() {
@@ -77,6 +77,12 @@ export default function Weather() {
       <Typography variant="h4">
         今日の気温は {data.weather.current.temp_c} です。
       </Typography>
+      <Typography variant="h4">
+        湿度は{data.weather.current.humidity}です。
+      </Typography>
+
+      
+      
       <Box
         sx={{
           backgroundColor: getTempColor(data.weather.current.temp_c),
@@ -84,7 +90,7 @@ export default function Weather() {
           height: '100px',
         }}
       >
-        気温
+        
       </Box>
     </div>
   ) : (

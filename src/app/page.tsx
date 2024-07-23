@@ -13,6 +13,7 @@ import Weather from './components/Weather';
 import Pop from './components/Pop'; // Changed backticks to single quotes
 import Tenki from './components/Tenki';
 import Grass from './components/Grass';
+import Caption from './components/Caption';
 export default function Home() {
   return (
     <>
@@ -29,6 +30,7 @@ export default function Home() {
       {/* <Pop /> */}
       {/* <Tenki /> */}
       {/* <Grass /> */}
+      <Caption/>
     </>
   );
 }
