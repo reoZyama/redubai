@@ -25,6 +25,10 @@ export default function Title() {
       >
         بروت
       </Typography>
+      <h1>Aggregation</h1>
+      <h1>redubai</h1>
+      <p>新しい世界を探検しました。ドバイ共和国の建築、政治、またイスラム教の幾何学模様などから『構え』をテーマにコーディングを用いて半永久的に変化し続けるモーションを制作しました。</p>
+
     </div>
   );
 }

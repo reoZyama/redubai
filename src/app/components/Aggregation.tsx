@@ -44,15 +44,15 @@ export default function Otameshi() {
     };
     window.addEventListener('resize', onWindowResize);
 
-    // ライトを作成
-    const light = new THREE.DirectionalLight(0xffffff, 2);
-    light.position.set(5 - 1, 5 - 1, 5 - 1);
-    light.castShadow = true;
-    scene.add(light);
+    // // ライトを作成
+    // const light = new THREE.DirectionalLight(0xffffff, 2);
+    // light.position.set(5 - 1, 5 - 1, 5 - 1);
+    // light.castShadow = true;
+    // scene.add(light);
 
-    // 環境光を作成
-    const ambientLight = new THREE.AmbientLight(0x404040);
-    scene.add(ambientLight);
+    // // 環境光を作成
+    // const ambientLight = new THREE.AmbientLight(0x404040);
+    // scene.add(ambientLight);
 
     // カメラの位置を設定
     camera.position.z = 15;
@@ -81,8 +81,8 @@ export default function Otameshi() {
 
     // ランダムな四角形を作成する関数
     const createRandomSquares = () => {
-      const numSquares = 2000;
-      const radius = 15;
+      const numSquares = 1000;
+      const radius = 20;
       const squares = [];
       const colors = [];
       for (let i = 0; i < numSquares; i++) {
@@ -101,7 +101,7 @@ export default function Otameshi() {
       );
       // 四角形のサイズを5倍に変更
       const material = new THREE.PointsMaterial({
-        size: 0.5, // 0.1から0.5に変更
+        size: 2.0, // 0.1から0.5に変更
         vertexColors: true,
       });
       const squareCloud = new THREE.Points(geometry, material);
@@ -114,8 +114,8 @@ export default function Otameshi() {
           const dx = target.x - square[i * 3];
           const dy = target.y - square[i * 3 + 1];
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const speed = 0.03; // 追尾速度を速くする
-          if (distance > 0.01 && distance < 0.8) { // 50pxの範囲内に制限
+          const speed = 0.3; // 追尾速度を速くする
+          if (distance > 0.1 && distance < 0.8) { // 50pxの範囲内に制限
             // 追尾範囲を狭くする
             square[i * 3] += (dx / distance) * speed;
             square[i * 3 + 1] += (dy / distance) * speed;
@@ -136,8 +136,6 @@ export default function Otameshi() {
       animateSquares();
       renderer.render(scene, camera);
     };
-
-    // アニメーションを開
     animate();
 
     // クリーンアップ関数を定義
