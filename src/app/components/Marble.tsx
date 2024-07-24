@@ -16,7 +16,7 @@ export default function Marble() {
       0.1,
       1000,
     );
-    camera.position.z = 10;
+    camera.position.z = 5; // カメラの位置を近づける
 
     return camera;
   };
@@ -48,9 +48,12 @@ export default function Marble() {
    */
   const randomShape = () => {
     const shape = new THREE.Shape();
+    const maxSize = 2; // オブジェクトの最大サイズを制限
     for (let i = 0; i < 7; i++) {
-      // 頂点の数を7つに変更し、z軸を反映させる
-      shape.lineTo(Math.random() * 10 - 5, Math.random() * 10 - 5);
+      shape.lineTo(
+        Math.random() * maxSize - maxSize / 2,
+        Math.random() * maxSize - maxSize / 2
+      );
     }
     return shape;
   };
@@ -64,6 +67,7 @@ export default function Marble() {
     material: THREE.MeshBasicMaterial,
   ) => {
     const amoeba = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルからメッシュを作成
+    amoeba.position.set(0, 0, 0); // アメーバを中心に配置
     scene.add(amoeba); // シーンにアメーバを追加
 
     return amoeba;
