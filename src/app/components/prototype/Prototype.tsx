@@ -1,13 +1,11 @@
-'use client'; // クライアントサイドで実行することを示す
+'use client';
 
-import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
-import * as THREE from 'three'; // Three.jsライブラリをインポート
-import useCurrentWeather from '../../hooks/useCurrentWeather'; // カスタムフックuseCurrentWeatherをインポート
+import { useEffect, useState } from 'react';
+import * as THREE from 'three';
 import PrototypeTitle from './PrototypeTitle';
 
 export default function Prototype() {
-  const { data } = useCurrentWeather(); // useCurrentWeatherフックからデータを取得
-  // data.temp_c ==> 8.7
+  const [turns, setTurns] = useState(5);
 
   /**
    * カメラを作成
@@ -19,6 +17,8 @@ export default function Prototype() {
       0.1,
       1000,
     );
+    camera.position.z = 15;
+
     return camera;
   };
 
@@ -83,6 +83,21 @@ export default function Prototype() {
     }
   };
 
+    /**
+     * 5秒ごとに螺旋の回転数を変更
+     */
+    const updateSpirals = (scene: THREE.Scene) => {
+      setInterval(() => {
+        // 新規螺旋を作成のために既存螺旋を削除
+        while (scene.children.length > 0) {
+          scene.remove(scene.children[0]);
+        }
+        const newTurns = turns + Math.floor(Math.random() * 5) - 1;
+        setTurns(newTurns);
+        createSpirals(scene, newTurns);
+      }, 5000);
+    };
+
   /**
    * アニメーションを開始
    */
@@ -95,7 +110,6 @@ export default function Prototype() {
       requestAnimationFrame(animateFunction); // 次のフレームで再度アニメーション関数を呼び出す
 
       const latitude = 25.2667 * (Math.PI / 180); // 北緯25度16分をラジアンに変換
-      const longitude = 55.3333 * (Math.PI / 180); // 東経55度20分をラジアンに変換
       const radius = 20; // カメラの半径を設定
 
       camera.position.x =
@@ -105,15 +119,32 @@ export default function Prototype() {
       camera.position.z = radius * Math.sin(latitude); // カメラのz座標を計算
       camera.lookAt(0, 0, 0); // カメラを原点に向ける
 
-      renderer.render(scene, camera); // シーンとカメラをレンダリング
+      // シーンとカメラをレンダリング
+      renderer.render(scene, camera);
     };
 
     animateFunction(); // アニメーションを開始
   };
 
+  const setupLight = (scene: THREE.Scene) => {
+    const light = createLight();
+    scene.add(light);
+
+    // 環境光を作成
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
+  };
+
+  const cleanup = (renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) => {
+    // クリーンアップ関数を定義
+    document.getElementById('prototype')?.removeChild(renderer.domElement);
+    window.removeEventListener('resize', () =>
+      onWindowResize(camera, renderer),
+    );
+  };
+
   useEffect(() => {
-    // コンポーネントがマウントされたときに実行される副作用を定義
-    const scene = new THREE.Scene(); // Three.jsのシーンを作成
+    const scene = new THREE.Scene();
 
     // カメラを作成
     const camera = createCamera();
@@ -122,47 +153,28 @@ export default function Prototype() {
     const renderer = createRenderer();
 
     // レンダラーのDOM要素をドキュメントに追加
-    document.body.appendChild(renderer.domElement);
+    document.getElementById('prototype')?.appendChild(renderer.domElement);
 
     // 画面サイズ変更時にレンダラーとカメラのサイズを更新
     window.addEventListener('resize', () => onWindowResize(camera, renderer));
 
     // ライトを作成
-    const light = createLight();
-    scene.add(light); // シーンにライトを追加
+    setupLight(scene);
 
-    const ambientLight = new THREE.AmbientLight(0x404040); // 環境光を作成
-    scene.add(ambientLight); // シーンに環境光を追加
+    // 初回に螺旋を作成
+    createSpirals(scene, turns);
 
-    camera.position.z = 15; // カメラの位置を設定
+    updateSpirals(scene);
 
-    let turns = 5; // 螺旋の回転数を定義
+    animate(scene, camera, renderer);
 
-    createSpirals(scene, turns); // 初回に螺旋を作成
-
-    setInterval(() => {
-      // シーンからすべてのオブジェクトを削除
-      while (scene.children.length > 0) {
-        scene.remove(scene.children[0]);
-      }
-      turns += Math.floor(Math.random() * 5) - 1; // 螺旋の回転数をランダムに増減
-      createSpirals(scene, turns); // 新しい螺旋を作成
-    }, 5000); // 5秒ごとに実行
-
-    animate(scene, camera, renderer); // アニメーションを開始
-
-    return () => {
-      // クリーンアップ関数を定義
-      document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
-      window.removeEventListener('resize', () =>
-        onWindowResize(camera, renderer),
-      ); // リサイズイベントリスナーを削除
-    };
+    return () => cleanup(renderer, camera);
   }, []);
 
   return (
     <div>
       <PrototypeTitle />
+      <div id="prototype" />
     </div>
   );
 }
