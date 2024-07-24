@@ -71,7 +71,8 @@ export default function Otameshi() {
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(scene.children, true);
 
-      if (intersects.length > 0) { // 修正: -0.001を0に変更
+      if (intersects.length > 0) {
+        // 修正: -0.001を0に変更
         target.copy(intersects[0].point);
       } else {
         // ここにエラーハンドリングを追加
@@ -116,7 +117,8 @@ export default function Otameshi() {
           const dy = target.y - square[i * 3 + 1];
           const distance = Math.sqrt(dx * dx + dy * dy);
           const speed = 0.3; // 追尾速度を速くする
-          if (distance > 0.1 && distance < 0.8) { // 50pxの範囲内に制限
+          if (distance > 0.1 && distance < 0.8) {
+            // 50pxの範囲内に制限
             // 追尾範囲を狭くする
             square[i * 3] += (dx / distance) * speed;
             square[i * 3 + 1] += (dy / distance) * speed;

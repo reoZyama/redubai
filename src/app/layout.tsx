@@ -17,7 +17,10 @@ export default function RootLayout({
       <CssBaseline />
       <html lang="en">
         <head>
-          <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=no" />
+          <meta
+            name="viewport"
+            content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=no"
+          />
         </head>
         <body>
           <SWRProvider>{children}</SWRProvider>

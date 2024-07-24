@@ -81,17 +81,13 @@ export default function Weather() {
         湿度は{data.weather.current.humidity}です。
       </Typography>
 
-      
-      
       <Box
         sx={{
           backgroundColor: getTempColor(data.weather.current.temp_c),
           width: '100px',
           height: '100px',
         }}
-      >
-        
-      </Box>
+      ></Box>
     </div>
   ) : (
     <CircularProgress />

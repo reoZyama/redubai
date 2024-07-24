@@ -8,7 +8,21 @@ const Caption = () => {
 
   useEffect(() => {
     const randomFont = () => {
-      const fonts = ['Arial', 'Helvetica', 'Times New Roman', 'Comic Sans MS', 'Courier New', 'Impact', 'Arial Black', 'Verdana', 'Trebuchet MS', 'Georgia', 'Meiryo', 'MS Gothic', 'MS Mincho'];
+      const fonts = [
+        'Arial',
+        'Helvetica',
+        'Times New Roman',
+        'Comic Sans MS',
+        'Courier New',
+        'Impact',
+        'Arial Black',
+        'Verdana',
+        'Trebuchet MS',
+        'Georgia',
+        'Meiryo',
+        'MS Gothic',
+        'MS Mincho',
+      ];
       const randomIndex = Math.floor(Math.random() * fonts.length);
       setFontFamily(fonts[randomIndex]);
     };
@@ -16,12 +30,22 @@ const Caption = () => {
     const randomFontSize = () => {
       const minFontSize = 1; // 最小文字サイズ
       const maxFontSize = 100; // 最大文字サイズ
-      const randomSize = Math.floor(Math.random() * (maxFontSize - minFontSize + 1)) + minFontSize;
+      const randomSize =
+        Math.floor(Math.random() * (maxFontSize - minFontSize + 1)) +
+        minFontSize;
       setFontSize(`${randomSize}px`); // 文字サイズを更新
     };
 
     const randomFontStretch = () => {
-      const stretches = ['normal', 'condensed', 'expanded', 'extra-condensed', 'extra-expanded', 'semi-condensed', 'semi-expanded'];
+      const stretches = [
+        'normal',
+        'condensed',
+        'expanded',
+        'extra-condensed',
+        'extra-expanded',
+        'semi-condensed',
+        'semi-expanded',
+      ];
       const randomStretchIndex = Math.floor(Math.random() * stretches.length);
       setFontStretch(stretches[randomStretchIndex]); // 文字の横長さを更新
     };
@@ -45,7 +69,16 @@ const Caption = () => {
 
   return (
     <div>
-      <h1 style={{ fontFamily: fontFamily, fontSize: fontSize, fontStretch: fontStretch, color: color }}>なんでもかいてね</h1>
+      <h1
+        style={{
+          fontFamily: fontFamily,
+          fontSize: fontSize,
+          fontStretch: fontStretch,
+          color: color,
+        }}
+      >
+        なんでもかいてね
+      </h1>
       <textarea placeholder="なんでもかいてね"></textarea>
     </div>
   );

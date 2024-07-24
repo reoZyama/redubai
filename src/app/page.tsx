@@ -17,20 +17,20 @@ import Caption from './components/Caption';
 export default function Home() {
   return (
     <>
-      <Prototype />
+      {/* <Prototype />
       <Title />
       <Weather />
       <Line />
-      <Aggregation />
+      <Aggregation /> */}
       <Marble />
       {/* <Ellipse /> */}
-      <Dodecahedron />
+      {/* <Dodecahedron />
       <Pentagon />
-      <Flows />
+      <Flows /> */}
       {/* <Pop /> */}
       {/* <Tenki /> */}
       {/* <Grass /> */}
-      <Caption/>
+      {/* <Caption/> */}
     </>
   );
 }

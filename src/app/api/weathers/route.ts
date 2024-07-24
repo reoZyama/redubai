@@ -8,7 +8,7 @@ const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', // OPTONSを追加
   'Access-Control-Allow-Headers': 'Content-Type', // 追加
-}
+};
 
 export async function GET(req: NextRequest, res: NextResponse) {
   // Run the middleware
@@ -22,10 +22,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const response = await $axios.get(url);
     const weather = response.data;
     // return Response.json({ weather });
-    return NextResponse.json(
-      { weather },
-      { headers: corsHeaders },
-    )
+    return NextResponse.json({ weather }, { headers: corsHeaders });
   } catch (error) {
     throw error;
     // console.error('Error fetching weather data:', error);
