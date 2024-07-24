@@ -1,15 +1,10 @@
 'use client'; // クライアントサイドで実行することを示す
 
-import { useEffect, useRef } from 'react'; // ReactのuseEffectフックとuseRefフックをインポート
-import * as THREE from 'three'; // Three.jsライブラリをインポート
-import { DragControls } from 'three/examples/jsm/controls/DragControls.js'; // 拡張子を追加
-import useCurrentWeather from '../hooks/useCurrentWeather'; // カスタムフックuseCurrentWeatherをインポート
+import { useEffect } from 'react';
+import * as THREE from 'three';
+import LineTitle from './LineTitle';
 
-export default function Otameshi() {
-  // Otameshiコンポーネントを定義
-  const { data } = useCurrentWeather(); // useCurrentWeatherフックからデータを取得
-  // data.temp_c ==> 8.7
-
+export default function Line() {
   useEffect(() => {
     // コンポーネントがマウントされたときに実行される副作用を定義
     const scene = new THREE.Scene(); // Three.jsのシーンを作成
@@ -23,7 +18,11 @@ export default function Otameshi() {
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
     renderer.shadowMap.enabled = true; // 影を有効にする
-    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
+
+    const lineDiv = document.getElementById('line');
+    if (lineDiv) {
+      lineDiv.appendChild(renderer.domElement); // レンダラーのDOM要素をline idのdivに追加
+    }
 
     // 画面サイズ変更時にレンダラーとカメラのサイズを更新
     const onWindowResize = () => {
@@ -90,34 +89,24 @@ export default function Otameshi() {
 
       scene.rotation.z += 0.0005; // シーン全体を時計回りに回転させる
 
-      renderer.render(scene, camera); // シーンと��メラをレンダリング
+      renderer.render(scene, camera); // シーンとカメラをレンダリング
     };
 
     animate(); // アニメーションを開始
 
     return () => {
       // クリーンアップ関数を定義
-      document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
+      if (lineDiv) {
+        lineDiv.removeChild(renderer.domElement); // レンダラーのDOM要素をline idのdivから削除
+      }
       window.removeEventListener('resize', onWindowResize); // リサイズイベントリスナーを削除
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div>
-      {' '}
-      {/* コンポーネントのルート要素 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          color: 'black',
-          fontFamily: 'Source Han Serif',
-          fontWeight: 'bold',
-        }}
-      >
-        {/* スタイルを適用したdiv要素 */}
-      </div>
-    </div>
+    <>
+      <LineTitle />
+      <div id="line" />
+    </>
   );
 }

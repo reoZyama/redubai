@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
 import * as THREE from 'three'; // Three.jsライブラリをインポート
-import useCurrentWeather from '../hooks/useCurrentWeather'; // カスタムフックuseCurrentWeatherをインポート
+import useCurrentWeather from '../../hooks/useCurrentWeather'; // カスタムフックuseCurrentWeatherをインポート
+import AggregationTitle from './AggregationTitle';
 
 export default function Otameshi() {
   // Otameshiコンポーネントを定義
@@ -34,25 +35,19 @@ export default function Otameshi() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     renderer.shadowMap.enabled = true;
-    document.body.appendChild(renderer.domElement);
 
-    // 画��イズ変更時にレンダラーとカメラのサイズを更新
+    const aggregationDiv = document.getElementById('aggregation');
+    if (aggregationDiv) {
+      aggregationDiv.appendChild(renderer.domElement);
+    }
+
+    // 画面サイズ変更時にレンダラーとカメラのサイズを更新
     const onWindowResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener('resize', onWindowResize);
-
-    // // ライトを作成
-    // const light = new THREE.DirectionalLight(0xffffff, 2);
-    // light.position.set(5 - 1, 5 - 1, 5 - 1);
-    // light.castShadow = true;
-    // scene.add(light);
-
-    // // 環境光を作成
-    // const ambientLight = new THREE.AmbientLight(0x404040);
-    // scene.add(ambientLight);
 
     // カメラの位置を設定
     camera.position.z = 15;
@@ -143,28 +138,18 @@ export default function Otameshi() {
 
     // クリーンアップ関数を定義
     return () => {
-      document.body.removeChild(renderer.domElement);
+      if (aggregationDiv) {
+        aggregationDiv.removeChild(renderer.domElement);
+      }
       window.removeEventListener('resize', onWindowResize);
       window.removeEventListener('mousemove', onMouseMove);
     };
   }, []); // 空の依存配列を渡して、コポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div>
-      {' '}
-      {/* コンポーネントのルート要素 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          color: 'black',
-          fontFamily: 'Source Han Serif',
-          fontWeight: 'bold',
-        }}
-      >
-        {/* スタイルを適用したdiv要素 */}
-      </div>
-    </div>
+    <>
+      <AggregationTitle />
+      <div id="aggregation" style={{ width: '100%', height: '100vh' }} />
+    </>
   );
 }

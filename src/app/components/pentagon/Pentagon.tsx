@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
 import * as THREE from 'three'; // Three.jsライブラリをインポート
+import PentagonTitle from './PentagonTitle';
 
 export default function Mozaiku() {
   // モザイクコンポーネントを定義
@@ -17,7 +18,11 @@ export default function Mozaiku() {
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
-    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
+
+    const pentagonDiv = document.getElementById('pentagon');
+    if (pentagonDiv) {
+      pentagonDiv.appendChild(renderer.domElement); // レンダラーのDOM要素をpentagonのdivに追加
+    }
 
     // ウィンドウのリサイズに対応
     window.addEventListener('resize', () => {
@@ -103,27 +108,16 @@ export default function Mozaiku() {
 
     return () => {
       // クリーンアップ関数を定義
-      document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
+      if (pentagonDiv) {
+        pentagonDiv.removeChild(renderer.domElement); // レンダラーのDOM要素をpentagonのdivから削除
+      }
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div>
-      {' '}
-      {/* コンポーネントのルート要素 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 15,
-          left: 25,
-          color: 'black',
-          fontFamily: 'Helvetica',
-          fontWeight: 'bold',
-          backgroundColor: 'transparent',
-        }}
-      >
-        {/* スタイルを適用したdiv要素 */}
-      </div>
-    </div>
+    <>
+      <PentagonTitle />
+      <div id="pentagon" style={{ width: '100%', height: '100vh' }} />
+    </>
   );
 }

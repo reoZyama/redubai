@@ -83,20 +83,20 @@ export default function Prototype() {
     }
   };
 
-    /**
-     * 5秒ごとに螺旋の回転数を変更
-     */
-    const updateSpirals = (scene: THREE.Scene) => {
-      setInterval(() => {
-        // 新規螺旋を作成のために既存螺旋を削除
-        while (scene.children.length > 0) {
-          scene.remove(scene.children[0]);
-        }
-        const newTurns = turns + Math.floor(Math.random() * 5) - 1;
-        setTurns(newTurns);
-        createSpirals(scene, newTurns);
-      }, 5000);
-    };
+  /**
+   * 5秒ごとに螺旋の回転数を変更
+   */
+  const updateSpirals = (scene: THREE.Scene) => {
+    setInterval(() => {
+      // 新規螺旋を作成のために既存螺旋を削除
+      while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+      }
+      const newTurns = turns + Math.floor(Math.random() * 5) - 1;
+      setTurns(newTurns);
+      createSpirals(scene, newTurns);
+    }, 5000);
+  };
 
   /**
    * アニメーションを開始
@@ -135,7 +135,10 @@ export default function Prototype() {
     scene.add(ambientLight);
   };
 
-  const cleanup = (renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) => {
+  const cleanup = (
+    renderer: THREE.WebGLRenderer,
+    camera: THREE.PerspectiveCamera,
+  ) => {
     // クリーンアップ関数を定義
     document.getElementById('prototype')?.removeChild(renderer.domElement);
     window.removeEventListener('resize', () =>

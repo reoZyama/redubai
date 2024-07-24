@@ -65,10 +65,6 @@ export default function Weather() {
     return `#${r}${g}${b}`;
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return data ? (
     <div>
       {/* <Typography variant="h4">

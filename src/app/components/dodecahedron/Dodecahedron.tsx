@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'; // ReactのuseEffectフックをインポート
 import * as THREE from 'three'; // Three.jsライブラリをインポート
+import DodecahedronTitle from './DodecahedronTitle';
 
 export default function Mozaiku() {
   // モザイクコンポーネントを定義
@@ -17,7 +18,10 @@ export default function Mozaiku() {
     const renderer = new THREE.WebGLRenderer({ alpha: true }); // レンダラーを作成
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0x000000, 0); // 背景色を透明に設定
-    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素をドキュメントに追加
+    const dodecahedronDiv = document.getElementById('dodecahedron'); // dodecahedron idのdivを取得
+    if (dodecahedronDiv) {
+      dodecahedronDiv.appendChild(renderer.domElement); // レンダラーのDOM要素をdodecahedron idのdivに追加
+    }
 
     // ウィンドウのリサイズに対応
     const handleWindowResize = (
@@ -50,7 +54,7 @@ export default function Mozaiku() {
     const edges = new THREE.EdgesGeometry(geometry); // エッジジオメトリを作成
     const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 }); // 黒色のラインマテリアルを作成
     const wireframe = new THREE.LineSegments(edges, lineMaterial); // エッジジオメトリとラインマテリアルからラインセグメントを作成
-    scene.add(wireframe); // シー���にイヤーフレームを追加
+    scene.add(wireframe); // シーンにワイヤーフレームを追加
 
     // 正十二面体の対角線を作成
     const vertices = geometry.attributes.position.array; // 正十二面体の頂点を取得
@@ -138,27 +142,16 @@ export default function Mozaiku() {
 
     return () => {
       // クリーンアップ関数を定義
-      document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
+      if (dodecahedronDiv) {
+        dodecahedronDiv.removeChild(renderer.domElement); // レンダラーのDOM要素をdodecahedron idのdivから削除
+      }
     };
   }, []); // 空の依存配列を渡して、コンポーネントのマウントとアンマウント時にのみ実行
 
   return (
-    <div>
-      {' '}
-      {/* コンポーネントのルト要素 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 15,
-          left: 25,
-          color: 'black',
-          fontFamily: 'Helvetica',
-          fontWeight: 'bold',
-          backgroundColor: 'transparent',
-        }}
-      >
-        {/* スタイルを適用したdiv要素 */}
-      </div>
-    </div>
+    <>
+      <DodecahedronTitle />
+      <div id="dodecahedron" />
+    </>
   );
 }

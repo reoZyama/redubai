@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'; // ReactのuseEffectとuseRefフックをインポート
 import * as THREE from 'three'; // Three.jsライブラリをインポート
+import MarbleTitle from './MarbleTitle';
 
 export default function Marble() {
   const mountRef = useRef(null); // DOM要素を参照するためのrefを作成
@@ -166,15 +167,18 @@ export default function Marble() {
   }, []);
 
   return (
-    <div
-      ref={mountRef}
-      style={{
-        width: '100vw',
-        height: '100vh',
-        margin: 0,
-        padding: 0,
-        overflow: 'hidden',
-      }}
-    />
+    <>
+      <MarbleTitle />
+      <div
+        ref={mountRef}
+        style={{
+          width: '100vw',
+          height: '100vh',
+          margin: 0,
+          padding: 0,
+          overflow: 'hidden',
+        }}
+      />
+    </>
   );
 }
