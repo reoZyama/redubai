@@ -45,8 +45,8 @@ const Caption = () => {
 
   return (
     <div>
-      <h1 style={{ fontFamily: fontFamily, fontSize: fontSize, fontStretch: fontStretch, color: color }}>みんなどう思った？</h1>
-      <textarea placeholder="感想書いてね"></textarea>
+      <h1 style={{ fontFamily: fontFamily, fontSize: fontSize, fontStretch: fontStretch, color: color }}>なんでもかいてね</h1>
+      <textarea placeholder="なんでもかいてね"></textarea>
     </div>
   );
 };
