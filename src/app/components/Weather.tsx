@@ -66,7 +66,7 @@ export default function Weather() {
   };
 
   return data ? (
-    <div>
+    <>
       {/* <Typography variant="h4">
         今日の雲の量は {data.weather.current.cloud} です。
       </Typography> */}
@@ -79,11 +79,11 @@ export default function Weather() {
       <Box
         sx={{
           backgroundColor: getTempColor(data.weather.current.temp_c),
-          width: '1512px',
+          width: '100%',
           height: '100px',
         }}
-      ></Box>
-    </div>
+      />
+    </>
   ) : (
     <CircularProgress />
   );

@@ -21,6 +21,7 @@ export default function RootLayout({
             name="viewport"
             content="initial-scale=1, width=device-width, maximum-scale=1.0, user-scalable=no"
           />
+          <title>redubai</title>
         </head>
         <body>
           <SWRProvider>{children}</SWRProvider>

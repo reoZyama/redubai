@@ -1,10 +1,13 @@
+import { Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import ScrollingText from './ScrollingText';
 
 export default function Form() {
   const [fontFamily, setFontFamily] = useState('Arial');
   const [fontSize, setFontSize] = useState('24px'); // 文字サイズの状態を追加
   const [fontStretch, setFontStretch] = useState('normal'); // 文字の横長さの状態を追加
   const [color, setColor] = useState('black'); // 文字の色の状態を追加
+  const [text, setText] = useState('');
 
   useEffect(() => {
     const randomFont = () => {
@@ -68,9 +71,11 @@ export default function Form() {
   }, []);
 
   return (
-    <div>
-      <h1
-        style={{
+    <Grid container px={4}>
+      <Grid item xs={12}>
+      <Typography
+        variant="h1"
+        sx={{
           fontFamily: fontFamily,
           fontSize: fontSize,
           fontStretch: fontStretch,
@@ -78,8 +83,17 @@ export default function Form() {
         }}
       >
         なんでもかいてね
-      </h1>
-      <textarea placeholder="なんでもかいてね"></textarea>
-    </div>
+      </Typography>
+      <TextField
+          placeholder="なんでもかいてね"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          maxRows={4}
+          minRows={4}
+          multiline
+        />
+        <ScrollingText text={text} duration={2} />
+      </Grid>
+    </Grid>
   );
 }
