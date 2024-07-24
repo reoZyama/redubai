@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <Weather />
 
-      {/* <Form /> */}
+      <Form />
       <Flows />
       <Marble />
       <Aggregation />

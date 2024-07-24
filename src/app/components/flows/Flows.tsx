@@ -35,7 +35,7 @@ export default function Flows() {
   };
 
   const cleanup = (renderer: THREE.Renderer, onWindowResize: () => void, onMouseMove: (event: MouseEvent) => void, scene: THREE.Scene) => {
-    document.body.removeChild(renderer.domElement); // レンダラーのDOM要素をドキュメントから削除
+    renderer.domElement.remove(); // レンダラーのDOM要素を削除
     window.removeEventListener('resize', onWindowResize); // リサイズイベントリスナーを削除
     window.removeEventListener('mousemove', onMouseMove); // マウスムーブイベントリスナーを削除
     scene.clear(); // シーンからすべてのオブジェクトを削除
@@ -50,9 +50,12 @@ export default function Flows() {
     renderer.setSize(window.innerWidth, window.innerHeight); // レンダラーのサイズを設定
     renderer.setClearColor(0x000000, 0); // 背設定
     renderer.shadowMap.enabled = true; // 影を有効にする
-    document.body.appendChild(renderer.domElement); // レンダラーのDOM要素ドキト
+    const flowsDiv = document.getElementById('flows');
+    if (flowsDiv) {
+      flowsDiv.appendChild(renderer.domElement); // レンダラーのDOM要素をflowsDivに追加
+    }
 
-    // 画面サズ変更時にレンダラーとカメラのサイズを更新
+    // 画面サイズ変更時にレンダラーとカメラのサイズを更新
     const onWindowResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -121,8 +124,9 @@ export default function Flows() {
   }, []);
 
   return (
-    <div>
+    <>
       <FlowsTitle />
-    </div>
+      <div id='flows' />
+    </>
   );
 }
