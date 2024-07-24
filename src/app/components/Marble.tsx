@@ -52,7 +52,7 @@ export default function Marble() {
     for (let i = 0; i < 7; i++) {
       shape.lineTo(
         Math.random() * maxSize - maxSize / 2,
-        Math.random() * maxSize - maxSize / 2
+        Math.random() * maxSize - maxSize / 2,
       );
     }
     return shape;

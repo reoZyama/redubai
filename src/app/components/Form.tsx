@@ -82,4 +82,4 @@ export default function Form() {
       <textarea placeholder="なんでもかいてね"></textarea>
     </div>
   );
-};
+}
