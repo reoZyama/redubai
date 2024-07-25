@@ -71,7 +71,7 @@ export default function Weather() {
         今日の雲の量は {data.weather.current.cloud} です。
       </Typography> */}
       <Typography variant="h4">
-        現在の気温は {data.weather.current.temp_c}°c です。
+        ドバイの現在の気温は {data.weather.current.temp_c}°c です。
       </Typography>
       <Typography variant="h4">
         湿度は{data.weather.current.humidity}%です。
